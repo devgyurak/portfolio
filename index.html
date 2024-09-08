@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>안녕하세요! 이규락 입니다.</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Software Engineer 이규락의 포트폴리오." name="keywords">
+    <meta content="Software Engineer 이규락의 포트폴리오." name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .portfolio-item {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4 sticky-lg-top vh-100">
+                <div class="d-flex flex-column h-100 text-center overflow-auto shadow">
+                    <img class="w-100 img-fluid mb-4"
+                        src="https://imagedelivery.net/R9FsTLXBX6-6fZLUqzGBBg/d877fc0c-f433-4707-46d1-026d8fd16e00/public"
+                        alt="Image">
+                    <h1 class="text-primary mt-2">Lee Gyurak</h1>
+                    <div class="mb-4" style="height: 22px;">
+                        <h4 class="typed-text-output d-inline-block text-light"></h4>
+                        <div class="typed-text d-none">Software Engineer, Python Developer, Backend Engineer</div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-auto mb-3">
+                        <a class="btn btn-secondary btn-square mx-1" href="https://www.linkedin.com/in/devgyurak/"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-secondary btn-square mx-1" href="https://github.com/leegyurak"><i
+                                class="fab fa-github"></i></a>
+                        <a class="btn btn-secondary btn-square mx-1" href="https://velog.io/@devgyurak"><i
+                                class="bi bi-book-half"></i></a>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between border-top">
+                        <a href="https://cdn.devgyurak.com/resume_leegyurak.pdf" class="btn w-50 border-end">Download
+                            CV</a>
+                        <a href="mailto:dev@devgyurak.com" class="btn w-50 btn-scroll">Contact Me</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <!-- About Start -->
+                <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="title pb-3 mb-5">👋 안녕하세요! 이규락 입니다.</h1>
+                    <p>네 번의 스타트업 경험으로 인해 `B2B`, `B2C` 도메인을 모두 접해보았습니다. <br>
+                        동료들과의 지속적인 소통 및 협업을 통해 최상의 과정과 결과를 갖기 위해 노력합니다. <br>
+                        서비스의 완성은 또 다른 시작이라는 생각으로 서비스를 더욱 발전 시키고자 합니다. <br>
+                        학생의 마음으로 초심을 잃지 않고 끊임 없는 성장을 위해 공부합니다. <br>
+                        설명하지 못하거나 적을 수 없다면 완벽하게 알고 있지 않다는 생각으로 블로그를 운영하기 위해 노력합니다.</p>
+                    <div class="row mb-4">
+                        <div class="col-sm-6 py-1">
+                            <span class="fw-medium text-primary">이름:</span> 이규락
+                        </div>
+                        <div class="col-sm-6 py-1">
+                            <span class="fw-medium text-primary">생년월일:</span> 2003-10-30
+                        </div>
+                        <div class="col-sm-6 py-1">
+                            <span class="fw-medium text-primary">학력:</span> 대구소프트웨어마이스터고등학교 졸업
+                        </div>
+                        <div class="col-sm-6 py-1">
+                            <span class="fw-medium text-primary">경력:</span> 3 Years
+                        </div>
+                        <div class="col-sm-6 py-1">
+                            <span class="fw-medium text-primary">Email:</span> dev@devgyurak.com
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-4 col-lg-6 col-xl-4">
+                            <div class="d-flex bg-secondary p-4">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">3</h1>
+                                <div class="ps-3">
+                                    <p class="mb-0">Years of</p>
+                                    <h5 class="mb-0">경력</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-6 col-xl-4">
+                            <div class="d-flex bg-secondary p-4">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">4</h1>
+                                <div class="ps-3">
+                                    <p class="mb-0">Companys</p>
+                                    <h5 class="mb-0">회사</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-6 col-xl-4">
+                            <div class="d-flex bg-secondary p-4">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">2</h1>
+                                <div class="ps-3">
+                                    <p class="mb-0">Projects</p>
+                                    <h5 class="mb-0">프로젝트</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- About End -->
+
+                <!-- Skills Start -->
+                <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="title pb-3 mb-5">Skills</h1>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Python</p>
+                                    <p class="mb-2">95%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="95"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Django</p>
+                                    <p class="mb-2">90%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="90"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">FastAPI</p>
+                                    <p class="mb-2">75%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="75"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">MySQL</p>
+                                    <p class="mb-2">90%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="90"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">PostgreSQL</p>
+                                    <p class="mb-2">65%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" aria-valuenow="65"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Redis</p>
+                                    <p class="mb-2">60%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Docker</p>
+                                    <p class="mb-2">80%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="80"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Ubuntu</p>
+                                    <p class="mb-2">70%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="70"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">AWS</p>
+                                    <p class="mb-2">70%</p>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" aria-valuenow="70"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Skills End -->
+
+                <!-- Expericence Start -->
+                <section class="py-5 wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="title pb-3 mb-5">Expericence</h1>
+                    <div class="border-start border-2 border-light pt-2 ps-5">
+                        <div class="position-relative mb-4">
+                            <span class="bi bi-arrow-right fs-4 text-light position-absolute"
+                                style="top: -5px; left: -50px;"></span>
+                            <h5 class="mb-1">Backend Intern</h5>
+                            <p class="mb-2">Rawlabs | <small>2021.02 - 2021.03</small></p>
+                            <p>로랩스는 기업 대상 MRO 솔루션을 제공하는 서비스 ‘에어서플라이’를 운영 중입니다.<br>
+                                개발팀에서 백엔드 인턴으로 근무했습니다.</p>
+                        </div>
+                        <div class="position-relative mb-4">
+                            <span class="bi bi-arrow-right fs-4 text-light position-absolute"
+                                style="top: -5px; left: -50px;"></span>
+                            <h5 class="mb-1">Backend Engineer</h5>
+                            <p class="mb-2">Qualson | <small>2021.07 - 2023.01</small></p>
+                            <p>퀄슨은 컨텐츠 기반 영어 학습 서비스인 ‘리얼클래스' 및 ‘스쿨라이브'를 운영합니다.<br>
+                                개발팀에서 백엔드 개발자로 근무했습니다.</p>
+                        </div>
+                        <div class="position-relative mb-4">
+                            <span class="bi bi-arrow-right fs-4 text-light position-absolute"
+                                style="top: -5px; left: -50px;"></span>
+                            <h5 class="mb-1">Backend Enginner</h5>
+                            <p class="mb-2">8percent | <small>2023.01 - 2023.06</small></p>
+                            <p>에잇퍼센트는 국내에서 P2P금융(온라인투자연계금융업)을 가장 먼저 시작한 기업입니다.<br>
+                                서비스 백엔드팀에서 백엔드 개발자로 근무했습니다.</p>
+                        </div>
+                        <div class="position-relative mb-4">
+                            <span class="bi bi-arrow-right fs-4 text-light position-absolute"
+                                style="top: -5px; left: -50px;"></span>
+                            <h5 class="mb-1">Software Enginner</h5>
+                            <p class="mb-2">AITRICS | <small>2023.08 - at now</small></p>
+                            <p>에이아이트릭스는 인공지능 솔루션으로 환자의 상태 및 위험도를 측정하는 서비스인
+                                VitalCare를 제공하는 기업입니다.<br>
+                                R&D팀에서 소프트웨어 앤지니어로 근무했습니다.</p>
+                        </div>
+                    </div>
+                    <br>
+                    <div>(경력에 대한 더욱 자세한 점은 CV를 참고해주세요.)</div>
+                </section>
+                <!-- Expericence End -->
+
+                <!-- Portfolio Start -->
+                <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="title pb-3 mb-5">Portfolio</h1>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row portfolio-container">
+                                <div class="col-md-6 mb-4 portfolio-item second" ata-bs-toggle="modal"
+                                    data-bs-target="#portfolioModal" data-title="좋았쓰! 변환기">
+                                    <div class="position-relative overflow-hidden mb-2">
+                                        <img class="img-fluid w-100 h-100"
+                                            src="https://imagedelivery.net/R9FsTLXBX6-6fZLUqzGBBg/80d70d25-877d-42c9-c0ab-567b1019f100/public"
+                                            alt="">
+                                    </div>
+                                    <div class="portfolio-name">좋았쓰! 변환기</div>
+                                </div>
+                                <div class="col-md-6 mb-4 portfolio-item second" data-bs-toggle="modal"
+                                    data-bs-target="#portfolioModal" data-title="상징 타로 카드 찾기">
+                                    <div class="position-relative overflow-hidden mb-2">
+                                        <img class="img-fluid w-100 h-100"
+                                            src="https://imagedelivery.net/R9FsTLXBX6-6fZLUqzGBBg/14a90240-77b8-4a1f-eb7e-f27de70a2c00/public"
+                                            alt="">
+                                    </div>
+                                    <div class="portfolio-name">상징 타로 카드 찾기</div>
+                                </div>
+                                <!-- Modal HTML -->
+                                <div class="modal fade" id="portfolioModal" tabindex="-1"
+                                    aria-labelledby="portfolioModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="portfolioModalLabel">모달 제목</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                모달 내용이 여기에 표시됩니다.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Portfolio End -->
+
+                <!-- Footer Start -->
+                <section class="wow fadeIn" data-wow-delay="0.1s">
+                    <div class="bg-secondary text-light text-center p-2">
+                        <div class="footer-buttons">
+                            <a href="https://cdn.devgyurak.com/resume_leegyurak.pdf"
+                                class="btn w-50 border-end">Download CV</a>
+                            <a href="mailto:dev@devgyurak.com" class="btn w-50 btn-scroll">Contact Me</a>
+                        </div>
+                        <div class="footer-icons">
+                            <a class="btn btn-dark btn-square mx-1" href="https://www.linkedin.com/in/devgyurak/"><i
+                                    class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-dark btn-square mx-1" href="https://github.com/leegyurak"><i
+                                    class="fab fa-github"></i></a>
+                            <a class="btn btn-dark btn-square mx-1" href="https://velog.io/@devgyurak"><i
+                                    class="bi bi-book-half"></i></a>
+                        </div>
+                    </div>
+                </section>
+                <!-- Footer End -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/typed/typed.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

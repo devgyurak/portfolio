@@ -1,0 +1,465 @@
+:root {
+  --primary: #00B87B;
+  --secondary: #314355;
+  --light: #F2F2F2;
+  --dark: #2C3E50;
+}
+
+body {
+  color: white;
+}
+
+* {
+  color: white;
+}
+
+#spinner {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s ease-out, visibility 0s linear .5s;
+  z-index: 99999;
+}
+
+#spinner.show {
+  transition: opacity .5s ease-out, visibility 0s linear 0s;
+  visibility: visible;
+  opacity: 1;
+}
+
+@media (max-width: 991.98px) {
+  .sticky-lg-top.vh-100 {
+    height: 100% !important;
+  }
+}
+
+.fw-semi-bold {
+  font-weight: 600;
+}
+
+.fw-medium {
+  font-weight: 500;
+}
+
+.btn-square {
+  width: 40px;
+  height: 40px;
+}
+
+.btn-sm-square {
+  width: 30px;
+  height: 30px;
+}
+
+.btn-lg-square {
+  width: 50px;
+  height: 50px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn.btn-primary {
+  color: white;
+}
+
+.typed-cursor {
+  font-size: 25px;
+  color: white;
+}
+
+.back-to-top {
+  position: fixed;
+  display: none;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 1;
+  font-size: 30px;
+  right: 30px;
+  bottom: 30px;
+  transition: background 0.5s;
+  z-index: 11;
+}
+
+.back-to-top i {
+  color: white;
+}
+
+.back-to-top i:hover {
+  color: var(--dark);
+}
+
+.back-to-top {
+  -webkit-animation: action 1s infinite alternate;
+  animation: action 1s infinite alternate;
+}
+
+@-webkit-keyframes action {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes action {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-15px);
+  }
+}
+
+.title {
+  position: relative;
+  color: white;
+}
+
+.title::before {
+  position: absolute;
+  content: "";
+  width: 10px;
+  height: 10px;
+  bottom: -4px;
+  left: 0;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.title::after {
+  position: absolute;
+  content: "";
+  width: 50px;
+  height: 2px;
+  bottom: 0;
+  left: 15px;
+  border-radius: 2px;
+  background: white;
+}
+
+.progress {
+  height: 5px;
+}
+
+.progress .progress-bar {
+  width: 0px;
+  transition: 2s;
+}
+
+.service-item {
+  padding: 30px;
+  text-align: center;
+  background: var(--secondary);
+}
+
+.service-item i {
+  width: 75px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: var(--secondary);
+  transition: .5s;
+}
+
+.service-item:hover i {
+  background: var(--primary);
+  color: white;
+}
+
+/* Portfolio Container */
+.portfolio-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Portfolio Item Styling */
+.portfolio-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  flex: 1 1 calc(50% - 20px);
+  margin-bottom: 5px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Adjust image styles */
+.portfolio-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Portfolio text styling */
+.portfolio-name {
+  font-size: 16px;
+  /* 기본 폰트 크기 설정 */
+  color: white;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  /* 줄바꿈을 방지합니다 */
+  overflow: hidden;
+  /* 넘치는 텍스트를 숨깁니다 */
+  text-overflow: ellipsis;
+  /* 넘치는 텍스트에 생략 부호를 추가합니다 */
+  max-width: 100%;
+  /* 텍스트가 부모 요소를 초과하지 않도록 설정합니다 */
+}
+
+/* Responsive adjustments for portfolio items */
+@media (max-width: 767.98px) {
+  .portfolio-item {
+    flex: 1 1 calc(100% - 20px);
+    margin: 5px;
+  }
+
+  .portfolio-item img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    transform: scale(0.8);
+    margin-bottom: 2px;
+  }
+
+  .portfolio-name {
+    font-size: 16px;
+    /* 유지할 폰트 크기 */
+    white-space: normal;
+    /* 줄바꿈을 허용 */
+    word-break: break-word;
+    /* 긴 단어가 줄바꿈되도록 설정 */
+  }
+}
+
+@media (min-width: 992px) {
+  .portfolio-container {
+    gap: 20px;
+  }
+
+  .portfolio-item {
+    flex: 1 1 calc(33.333% - 20px);
+  }
+}
+
+/* Hide portfolio item button */
+.portfolio-item .portfolio-btn {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  font-size: 90px;
+  background: rgba(44, 62, 80, .9);
+  opacity: 0;
+  transition: .5s;
+}
+
+.portfolio-item:hover .portfolio-btn {
+  opacity: 1;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  top: 10px;
+  left: 10px;
+}
+
+.portfolio-item i {
+  opacity: 0;
+  transition: .3s;
+  transition-delay: .3s;
+}
+
+.portfolio-item:hover i {
+  opacity: 1;
+}
+
+/* Footer Button and Icon Container Styling */
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Footer Button Styling */
+.footer-buttons .btn {
+  flex: 1;
+  text-align: center;
+}
+
+/* Footer Icon Container Styling */
+.footer-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Footer Icon Button Styling */
+.footer-icons .btn-square {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  border-radius: 15px;
+  /* 모달의 모서리를 둥글게 설정 */
+}
+
+/* 모달 헤더 스타일 */
+.modal-header {
+  padding: 0;
+  /* 기본 패딩을 제거하여 여백을 최소화 */
+  border-bottom: none;
+  /* 헤더 아래의 테두리를 제거 */
+  display: flex;
+  justify-content: center;
+  /* 수평 중앙 정렬 */
+  align-items: center;
+  /* 수직 중앙 정렬 */
+  position: relative;
+  /* 버튼을 절대 위치로 설정할 수 있게 함 */
+  margin-top: 20px;
+  /* 모달 헤더 위쪽에 여백 추가 */
+}
+
+/* 클로즈 버튼 스타일 */
+.modal-header .btn-close {
+  position: absolute;
+  /* 절대 위치로 설정하여 우측 상단에 배치 */
+  top: 0;
+  /* 모달 헤더 상단에 붙이기 */
+  right: 10px;
+  /* 모달 헤더 우측에서 10px 떨어지게 설정 */
+  margin: 0;
+  /* 여백 제거 */
+  padding: 0;
+  /* 패딩 제거 */
+  color: #6c757d;
+  /* 회색으로 버튼 색상 설정 */
+}
+
+/* 모달 제목 스타일 */
+.modal-title {
+  margin: 0;
+  /* 제목과 버튼 사이의 여백을 제거 */
+  padding: 0;
+  /* 제목의 패딩을 제거 */
+  text-align: center;
+  /* 텍스트 중앙 정렬 */
+  color: #000 !important;
+  /* 텍스트 색상 강제 적용 */
+}
+
+.modal-body {
+  font-family: Arial, sans-serif;
+  /* 기본 글꼴 설정 */
+  color: #333 !important;
+  /* 기본 글씨 색상 */
+  line-height: 1.6;
+  /* 줄 간격 설정 */
+}
+
+.modal-body h2 {
+  color: #2c3e50;
+  /* 제목 색상 */
+  border-bottom: 2px solid #ecf0f1;
+  /* 제목 아래 선 */
+  padding-bottom: 10px;
+  /* 제목과 선 사이 여백 */
+  margin-bottom: 20px;
+  /* 제목과 본문 사이 여백 */
+}
+
+.modal-body ul {
+  list-style: none;
+  /* 기본 리스트 스타일 제거 */
+  padding: 0;
+  /* 패딩 제거 */
+}
+
+.modal-body li {
+  color: black;
+  /* 패딩 제거 */
+}
+
+.modal-body code {
+  color: black;
+}
+
+.modal-body ul li {
+  margin-bottom: 10px;
+  /* 항목 사이 여백 */
+}
+
+.modal-body pre {
+  background-color: #f4f4f4;
+  /* 코드 블록 배경색 */
+  border: 1px solid #ddd;
+  /* 코드 블록 테두리 */
+  border-radius: 5px;
+  /* 코드 블록 모서리 둥글기 */
+  padding: 15px;
+  /* 코드 블록 안쪽 여백 */
+  overflow-x: auto;
+  /* 코드 블록이 넘칠 경우 수평 스크롤 추가 */
+}
+
+.modal-body blockquote {
+  border-left: 5px solid #3498db;
+  /* 인용문 왼쪽 테두리 */
+  padding-left: 15px;
+  /* 인용문 왼쪽 여백 */
+  margin: 15px 0;
+  /* 인용문 상하 여백 */
+  color: #7f8c8d;
+  /* 인용문 글씨 색상 */
+  font-style: italic;
+  /* 인용문 이탤릭체 */
+}
+
+.modal-body img {
+  margin-top: 5px;
+}
+
+.modal-body .screen {
+  max-width: 100%;
+  /* 이미지의 최대 너비를 모달에 맞춤 */
+  height: auto;
+  /* 이미지의 높이를 자동 조정 */
+  display: block;
+  /* 블록 요소로 표시하여 수평 중앙 정렬 지원 */
+  margin: 0 auto;
+  /* 중앙 정렬을 위한 좌우 여백 자동 설정 */
+  margin-bottom: 10px;
+}
+
+.modal-body a {
+  color: #3498db;
+  /* 링크 색상 */
+  text-decoration: none;
+  /* 링크 밑줄 제거 */
+}
+
+.modal-body a:hover {
+  text-decoration: underline;
+  /* 링크에 마우스 오버 시 밑줄 추가 */
+}
