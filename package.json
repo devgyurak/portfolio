@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "webpack": "^5.94.0"
   },
   "scripts": {
-    "build" : "webpack"
+    "build": "webpack"
   }
 }
