@@ -143,7 +143,7 @@ const SimpleDropdown: React.FC = () => {
       ? '0 8px 32px rgba(0, 0, 0, 0.8)' 
       : '0 8px 32px rgba(0, 0, 0, 0.15)',
     minWidth: '140px',
-    zIndex: 999999,
+    zIndex: 2147483647,
     // 애니메이션 스타일
     display: shouldRender ? 'block' : 'none',
     opacity: shouldShow ? 1 : 0,
