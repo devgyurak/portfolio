@@ -5,7 +5,7 @@ import { useTheme } from '../hooks/useTheme';
 const SimpleDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [buttonPosition, setButtonPosition] = useState<{ top: number; right: number } | null>(null);
+  const [buttonPosition, setButtonPosition] = useState<{ top: number; right: number; left: number } | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const { language, setLanguage } = useLanguage();
   const { isDarkMode } = useTheme();
@@ -25,7 +25,8 @@ const SimpleDropdown: React.FC = () => {
       const rect = buttonRef.current.getBoundingClientRect();
       const newPosition = {
         top: rect.bottom + 8, // 버튼 아래에 8px 간격
-        right: window.innerWidth - rect.right // 오른쪽 정렬
+        right: window.innerWidth - rect.right, // 오른쪽 정렬
+        left: rect.left // 모바일용 왼쪽 정렬
       };
       
       setButtonPosition(newPosition);
@@ -131,7 +132,10 @@ const SimpleDropdown: React.FC = () => {
   const menuStyle: React.CSSProperties = {
     position: 'fixed',
     top: buttonPosition ? `${buttonPosition.top}px` : '-9999px',
-    right: buttonPosition ? `${buttonPosition.right}px` : '-9999px',
+    ...(isTouchDevice 
+      ? { left: buttonPosition ? `${buttonPosition.left}px` : '-9999px' }
+      : { right: buttonPosition ? `${buttonPosition.right}px` : '-9999px' }
+    ),
     background: isDarkMode ? 'rgba(30, 30, 30, 0.95)' : 'rgba(255, 255, 255, 0.95)',
     border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)'}`,
     borderRadius: '8px',
