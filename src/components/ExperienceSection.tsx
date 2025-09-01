@@ -44,8 +44,19 @@ const ExperienceItem = styled.div<{ $isDarkMode: boolean; $isVisible: boolean }>
     $isDarkMode ? 'none' : `0 1px 3px ${theme.colors.light.shadow}`};
   overflow: visible;
   
-  opacity: ${({ $isVisible }) => $isVisible ? 1 : 0};
-  transform: translateY(${({ $isVisible }) => $isVisible ? '0' : '30px'});
+  opacity: 0;
+  animation: ${({ $isVisible }) => $isVisible ? 'slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none'};
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   &:hover {
     border-color: ${({ $isDarkMode }) => 

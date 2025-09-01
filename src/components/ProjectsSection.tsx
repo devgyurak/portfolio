@@ -30,7 +30,7 @@ const ProjectsGrid = styled.div`
   margin-top: 3rem;
 `;
 
-const ProjectCard = styled.div<{ $isDarkMode: boolean }>`
+const ProjectCard = styled.div<{ $isDarkMode: boolean; $isVisible?: boolean }>`
   border: 1px solid ${({ $isDarkMode }) => 
     $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
   border-radius: ${theme.radius.lg};
@@ -40,6 +40,20 @@ const ProjectCard = styled.div<{ $isDarkMode: boolean }>`
     $isDarkMode ? 'transparent' : theme.colors.light.surface};
   box-shadow: ${({ $isDarkMode }) => 
     $isDarkMode ? 'none' : `0 1px 3px ${theme.colors.light.shadow}`};
+  
+  opacity: 0;
+  animation: ${({ $isVisible }) => $isVisible ? 'slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none'};
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   &:hover {
     border-color: ${({ $isDarkMode }) => 
@@ -185,11 +199,7 @@ const ProjectCardComponent: React.FC<{ post: BlogPost; index: number; isDarkMode
     <ProjectCard 
       ref={elementRef as any}
       $isDarkMode={isDarkMode}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: `translateY(${isVisible ? '0' : '20px'})`,
-        transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-      }}
+      $isVisible={isVisible}
     >
       <ProjectTitle $isDarkMode={isDarkMode}>{post.title}</ProjectTitle>
       <ProjectDate $isDarkMode={isDarkMode}>{post.date}</ProjectDate>
