@@ -246,10 +246,11 @@ const ProjectCardComponent: React.FC<{ post: BlogPost; index: number; isDarkMode
       </TagsContainer>
       <ProjectActions $isDarkMode={isDarkMode}>
         <ViewGithubButton 
-          href="https://github.com/leegyurak" 
+          href={post.githubUrl || "https://github.com/leegyurak"} 
           target="_blank" 
           rel="noopener noreferrer"
           $isDarkMode={isDarkMode}
+          onClick={(e) => e.stopPropagation()}
         >
           <ButtonIcon $isDarkMode={isDarkMode}>
             <img src="/icons/github.svg" alt="GitHub" />

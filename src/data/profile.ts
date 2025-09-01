@@ -69,6 +69,7 @@ export interface BlogPost {
   tags: string[];
   slug: string;
   url?: string;
+  githubUrl?: string;
 }
 
 export const profileData: ProfileData = {
@@ -193,7 +194,8 @@ export const blogPosts: BlogPost[] = [
     image: "https://via.placeholder.com/400x200",
     tags: ["Kotlin", "Spring Boot", "MySQL", "Redis", "Nginx", "Clean Architecture", "mlx_lm"],
     slug: "jurot",
-    url: "https://jurot.site"
+    url: "https://jurot.site",
+    githubUrl: "https://github.com/leegyurak/jurot"
   },
   {
     title: "면세주점",
@@ -202,6 +204,7 @@ export const blogPosts: BlogPost[] = [
     image: "https://via.placeholder.com/400x200",
     tags: ["Python", "Django", "MySQL", "Nginx", "Clean Architecture"],
     slug: "myunsejujeom",
-    url: "https://myunsejeomju.shop"
+    url: "https://myunsejeomju.shop",
+    githubUrl: "https://github.com/leegyurak/myunsejeomju"
   }
 ];
