@@ -6,11 +6,21 @@ const SimpleDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [buttonPosition, setButtonPosition] = useState<{ top: number; right: number } | null>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const { language, setLanguage } = useLanguage();
   const { isDarkMode } = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const handleButtonClick = () => {
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  const handleButtonClick = (event?: React.MouseEvent | React.TouchEvent) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       const newPosition = {
@@ -21,16 +31,12 @@ const SimpleDropdown: React.FC = () => {
       setButtonPosition(newPosition);
       
       if (!isOpen) {
-        // 열기
+        // 열기 - 항상 애니메이션 적용
         setIsAnimating(true);
-        if (!buttonPosition) {
-          // 첫 클릭인 경우에만 지연
-          setTimeout(() => {
-            setIsOpen(true);
-          }, 10);
-        } else {
+        // 터치 디바이스를 위한 지연 추가
+        setTimeout(() => {
           setIsOpen(true);
-        }
+        }, isTouchDevice ? 10 : 10);
       } else {
         // 닫기 - 애니메이션 후 숨김
         setIsOpen(false);
@@ -54,16 +60,19 @@ const SimpleDropdown: React.FC = () => {
 
   const handleOptionClick = (lang: Language) => {
     setLanguage(lang);
-    // 닫기 애니메이션
-    setIsOpen(false);
+    // 터치 디바이스에서 잠깐 지연 후 닫기 애니메이션
+    const delay = isTouchDevice ? 100 : 0;
     setTimeout(() => {
-      setIsAnimating(false);
-    }, 250);
+      setIsOpen(false);
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 250);
+    }, delay);
   };
 
-  // 외부 클릭 감지
+  // 외부 클릭/터치 감지
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (!isOpen) return;
       
       const target = event.target as HTMLElement;
@@ -81,11 +90,13 @@ const SimpleDropdown: React.FC = () => {
     if (isOpen) {
       setTimeout(() => {
         document.addEventListener('click', handleClickOutside);
+        document.addEventListener('touchstart', handleClickOutside, { passive: true });
       }, 0);
     }
     
     return () => {
       document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -103,10 +114,14 @@ const SimpleDropdown: React.FC = () => {
     fontWeight: 500,
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
-    padding: 0,
+    padding: '8px 4px',
     display: 'flex',
     alignItems: 'center',
-    gap: '0.25rem'
+    gap: '0.25rem',
+    minWidth: '48px',
+    minHeight: '44px',
+    justifyContent: 'center',
+    WebkitTapHighlightColor: 'transparent'
   };
 
   const isVisible = buttonPosition !== null;
@@ -161,13 +176,18 @@ const SimpleDropdown: React.FC = () => {
       <button 
         ref={buttonRef}
         style={buttonStyle}
-        onClick={handleButtonClick}
-        onMouseEnter={(e) => {
+        onClick={!isTouchDevice ? handleButtonClick : undefined}
+        onTouchStart={isTouchDevice ? (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleButtonClick(e);
+        } : undefined}
+        onMouseEnter={!isTouchDevice ? (e) => {
           e.currentTarget.style.color = isDarkMode ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)';
-        }}
-        onMouseLeave={(e) => {
+        } : undefined}
+        onMouseLeave={!isTouchDevice ? (e) => {
           e.currentTarget.style.color = isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
-        }}
+        } : undefined}
       >
         {language === 'ko' ? 'KO' : 'EN'} ▼
       </button>
@@ -175,41 +195,51 @@ const SimpleDropdown: React.FC = () => {
       <div style={menuStyle}>
         <button 
           style={optionStyle(language === 'ko')}
-          onClick={() => handleOptionClick('ko')}
-          onMouseEnter={(e) => {
+          onClick={!isTouchDevice ? () => handleOptionClick('ko') : undefined}
+          onTouchStart={isTouchDevice ? (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleOptionClick('ko');
+          } : undefined}
+          onMouseEnter={!isTouchDevice ? (e) => {
             e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)';
             e.currentTarget.style.transform = 'translateX(4px) scale(1.02)';
             e.currentTarget.style.boxShadow = isDarkMode 
               ? '0 2px 8px rgba(255, 255, 255, 0.1)' 
               : '0 2px 8px rgba(0, 0, 0, 0.1)';
-          }}
-          onMouseLeave={(e) => {
+          } : undefined}
+          onMouseLeave={!isTouchDevice ? (e) => {
             e.currentTarget.style.background = language === 'ko' 
               ? (isDarkMode ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)')
               : 'transparent';
             e.currentTarget.style.transform = 'translateX(0) scale(1)';
             e.currentTarget.style.boxShadow = 'none';
-          }}
+          } : undefined}
         >
           한국어
         </button>
         <button 
           style={optionStyle(language === 'en')}
-          onClick={() => handleOptionClick('en')}
-          onMouseEnter={(e) => {
+          onClick={!isTouchDevice ? () => handleOptionClick('en') : undefined}
+          onTouchStart={isTouchDevice ? (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleOptionClick('en');
+          } : undefined}
+          onMouseEnter={!isTouchDevice ? (e) => {
             e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)';
             e.currentTarget.style.transform = 'translateX(4px) scale(1.02)';
             e.currentTarget.style.boxShadow = isDarkMode 
               ? '0 2px 8px rgba(255, 255, 255, 0.1)' 
               : '0 2px 8px rgba(0, 0, 0, 0.1)';
-          }}
-          onMouseLeave={(e) => {
+          } : undefined}
+          onMouseLeave={!isTouchDevice ? (e) => {
             e.currentTarget.style.background = language === 'en' 
               ? (isDarkMode ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)')
               : 'transparent';
             e.currentTarget.style.transform = 'translateX(0) scale(1)';
             e.currentTarget.style.boxShadow = 'none';
-          }}
+          } : undefined}
         >
           English
         </button>

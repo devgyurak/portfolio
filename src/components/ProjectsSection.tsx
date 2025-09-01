@@ -28,6 +28,11 @@ const ProjectsGrid = styled.div`
   display: grid;
   gap: 2rem;
   margin-top: 3rem;
+  min-height: 600px;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    min-height: 800px;
+  }
 `;
 
 const ProjectCard = styled.div<{ $isDarkMode: boolean; $isVisible?: boolean; $clickable?: boolean }>`
@@ -43,16 +48,16 @@ const ProjectCard = styled.div<{ $isDarkMode: boolean; $isVisible?: boolean; $cl
   cursor: ${({ $clickable }) => $clickable ? 'pointer' : 'default'};
   
   opacity: 0;
-  animation: ${({ $isVisible }) => $isVisible ? 'slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none'};
+  transform: translate3d(0, 0, 0);
+  will-change: ${({ $isVisible }) => $isVisible ? 'opacity' : 'auto'};
+  animation: ${({ $isVisible }) => $isVisible ? 'fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none'};
   
-  @keyframes slideInUp {
+  @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(20px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 
