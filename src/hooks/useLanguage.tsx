@@ -50,7 +50,7 @@ const translations = {
     // Projects
     'proj.jurot.title': '주로',
     'proj.jurot.desc': "'미래를 보는데 돈은 필요 없다'라는 신념하에 시작한 프로젝트로, LLM을 활용해 사주, 타로 등 각종 운세를 무료로 제공하는 서비스입니다.\n\nKotlin/Spring Boot, MySQL, Redis 등의 기술 사용 및 Clean Architecture 적용으로 유지보수성을 확보했습니다.",
-    'proj.myunsejujeom.title': '면세주점',
+    'proj.myunsejujeom.title': '면세점주',
     'proj.myunsejujeom.desc': '숭실대학교 대학 축제 야간주점에서 온라인 주문/결제 시스템을 활용할 수 없는 문제를 개선하기 위해 시작한 프로젝트입니다.\n\nPython/Django, MySQL, Nginx 등의 기술 사용 및 Clean Architecture 적용으로 유지보수성을 확보했습니다.'
   },
   en: {

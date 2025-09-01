@@ -198,7 +198,7 @@ export const blogPosts: BlogPost[] = [
     githubUrl: "https://github.com/leegyurak/jurot"
   },
   {
-    title: "면세주점",
+    title: "면세점주",
     date: "2025-07 ~ Present",
     excerpt: "숭실대학교 대학 축제 야간주점에서 온라인 주문/결제 시스템을 활용할 수 없는 문제를 개선하기 위해 시작한 프로젝트입니다.\n\nPython/Django, MySQL, Nginx 등의 기술 사용 및 Clean Architecture 적용으로 유지보수성을 확보했습니다.",
     image: "https://via.placeholder.com/400x200",
