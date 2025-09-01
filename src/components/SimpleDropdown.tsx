@@ -176,11 +176,14 @@ const SimpleDropdown: React.FC = () => {
       <button 
         ref={buttonRef}
         style={buttonStyle}
-        onClick={!isTouchDevice ? handleButtonClick : undefined}
-        onTouchEnd={isTouchDevice ? (e) => {
+        onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           handleButtonClick(e);
+        }}
+        onTouchStart={isTouchDevice ? (e) => {
+          e.preventDefault();
+          e.stopPropagation();
         } : undefined}
         onMouseEnter={!isTouchDevice ? (e) => {
           e.currentTarget.style.color = isDarkMode ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)';
@@ -195,11 +198,14 @@ const SimpleDropdown: React.FC = () => {
       <div style={menuStyle}>
         <button 
           style={optionStyle(language === 'ko')}
-          onClick={!isTouchDevice ? () => handleOptionClick('ko') : undefined}
-          onTouchEnd={isTouchDevice ? (e) => {
+          onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             handleOptionClick('ko');
+          }}
+          onTouchStart={isTouchDevice ? (e) => {
+            e.preventDefault();
+            e.stopPropagation();
           } : undefined}
           onMouseEnter={!isTouchDevice ? (e) => {
             e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)';
@@ -220,11 +226,14 @@ const SimpleDropdown: React.FC = () => {
         </button>
         <button 
           style={optionStyle(language === 'en')}
-          onClick={!isTouchDevice ? () => handleOptionClick('en') : undefined}
-          onTouchEnd={isTouchDevice ? (e) => {
+          onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             handleOptionClick('en');
+          }}
+          onTouchStart={isTouchDevice ? (e) => {
+            e.preventDefault();
+            e.stopPropagation();
           } : undefined}
           onMouseEnter={!isTouchDevice ? (e) => {
             e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)';
