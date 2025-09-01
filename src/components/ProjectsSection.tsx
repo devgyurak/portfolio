@@ -30,7 +30,7 @@ const ProjectsGrid = styled.div`
   margin-top: 3rem;
 `;
 
-const ProjectCard = styled.div<{ $isDarkMode: boolean; $isVisible?: boolean }>`
+const ProjectCard = styled.div<{ $isDarkMode: boolean; $isVisible?: boolean; $clickable?: boolean }>`
   border: 1px solid ${({ $isDarkMode }) => 
     $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
   border-radius: ${theme.radius.lg};
@@ -40,6 +40,7 @@ const ProjectCard = styled.div<{ $isDarkMode: boolean; $isVisible?: boolean }>`
     $isDarkMode ? 'transparent' : theme.colors.light.surface};
   box-shadow: ${({ $isDarkMode }) => 
     $isDarkMode ? 'none' : `0 1px 3px ${theme.colors.light.shadow}`};
+  cursor: ${({ $clickable }) => $clickable ? 'pointer' : 'default'};
   
   opacity: 0;
   animation: ${({ $isVisible }) => $isVisible ? 'slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none'};
@@ -195,16 +196,46 @@ const ProjectCardComponent: React.FC<{ post: BlogPost; index: number; isDarkMode
   const { elementRef, isVisible } = useScrollAnimation({ delay: index * 150 });
   const { t } = useLanguage();
   
+  const getTitle = () => {
+    switch (post.slug) {
+      case 'jurot':
+        return t('proj.jurot.title');
+      case 'myunsejujeom':
+        return t('proj.myunsejujeom.title');
+      default:
+        return post.title;
+    }
+  };
+  
+  const getDescription = () => {
+    switch (post.slug) {
+      case 'jurot':
+        return t('proj.jurot.desc');
+      case 'myunsejujeom':
+        return t('proj.myunsejujeom.desc');
+      default:
+        return post.excerpt;
+    }
+  };
+  
+  const handleCardClick = () => {
+    if (post.url) {
+      window.open(post.url, '_blank', 'noopener,noreferrer');
+    }
+  };
+  
   return (
     <ProjectCard 
       ref={elementRef as any}
       $isDarkMode={isDarkMode}
       $isVisible={isVisible}
+      $clickable={!!post.url}
+      onClick={handleCardClick}
     >
-      <ProjectTitle $isDarkMode={isDarkMode}>{post.title}</ProjectTitle>
+      <ProjectTitle $isDarkMode={isDarkMode}>{getTitle()}</ProjectTitle>
       <ProjectDate $isDarkMode={isDarkMode}>{post.date}</ProjectDate>
       <ProjectDescription $isDarkMode={isDarkMode}>
-        {post.excerpt}
+        {getDescription()}
       </ProjectDescription>
       <TagsContainer>
         {post.tags.map((tag: string, tagIndex: number) => (

@@ -149,6 +149,20 @@ const Description = styled.div<{ $isDarkMode: boolean }>`
 
 const ExperienceCard: React.FC<{ item: ExperienceItemType; index: number; isDarkMode: boolean }> = ({ item, index, isDarkMode }) => {
   const { elementRef, isVisible } = useScrollAnimation({ delay: index * 200 });
+  const { t } = useLanguage();
+  
+  const getDescription = () => {
+    switch (item.company) {
+      case 'AITRICS':
+        return t('exp.aitrics.desc');
+      case '8percent':
+        return t('exp.8percent.desc');
+      case 'Qualson':
+        return t('exp.qualson.desc');
+      default:
+        return item.description;
+    }
+  };
   
   return (
     <ExperienceItem 
@@ -163,7 +177,7 @@ const ExperienceCard: React.FC<{ item: ExperienceItemType; index: number; isDark
         </TitleGroup>
         <Period $isDarkMode={isDarkMode}>{item.period}</Period>
       </ExperienceHeader>
-      <Description $isDarkMode={isDarkMode}>{item.description}</Description>
+      <Description $isDarkMode={isDarkMode}>{getDescription()}</Description>
     </ExperienceItem>
   );
 };
