@@ -46,11 +46,12 @@ const Header = styled.header`
 const Name = styled.h1<{ $isDarkMode: boolean }>`
   font-size: clamp(4rem, 8vw, 7rem);
   font-weight: 700;
-  line-height: 0.9;
+  line-height: 1.0;
   margin: 0 0 1rem 0;
   color: ${({ $isDarkMode }) => 
     $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
   letter-spacing: -0.04em;
+  padding-bottom: 0.1em;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: clamp(4.5rem, 15vw, 6rem);
@@ -60,13 +61,14 @@ const Name = styled.h1<{ $isDarkMode: boolean }>`
 const Title = styled.h2<{ $isDarkMode: boolean }>`
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.4;
   margin: 0 0 2rem 0;
   color: ${({ $isDarkMode }) => 
     $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
   white-space: pre-line;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  padding-bottom: 0.2em;
 `;
 
 const Description = styled.div<{ $isDarkMode: boolean }>`
