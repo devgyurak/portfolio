@@ -177,7 +177,7 @@ const SimpleDropdown: React.FC = () => {
         ref={buttonRef}
         style={buttonStyle}
         onClick={!isTouchDevice ? handleButtonClick : undefined}
-        onTouchStart={isTouchDevice ? (e) => {
+        onTouchEnd={isTouchDevice ? (e) => {
           e.preventDefault();
           e.stopPropagation();
           handleButtonClick(e);
@@ -196,7 +196,7 @@ const SimpleDropdown: React.FC = () => {
         <button 
           style={optionStyle(language === 'ko')}
           onClick={!isTouchDevice ? () => handleOptionClick('ko') : undefined}
-          onTouchStart={isTouchDevice ? (e) => {
+          onTouchEnd={isTouchDevice ? (e) => {
             e.preventDefault();
             e.stopPropagation();
             handleOptionClick('ko');
@@ -221,7 +221,7 @@ const SimpleDropdown: React.FC = () => {
         <button 
           style={optionStyle(language === 'en')}
           onClick={!isTouchDevice ? () => handleOptionClick('en') : undefined}
-          onTouchStart={isTouchDevice ? (e) => {
+          onTouchEnd={isTouchDevice ? (e) => {
             e.preventDefault();
             e.stopPropagation();
             handleOptionClick('en');
