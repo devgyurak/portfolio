@@ -137,6 +137,10 @@ const RightSection = styled.div`
   overflow: visible !important;
   flex-shrink: 0;
   position: relative;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: 0.5rem;
+  }
 `;
 
 export const Header: React.FC = () => {
@@ -196,9 +200,7 @@ export const Header: React.FC = () => {
         </NavLinks>
 
         <RightSection>
-          <div style={{ marginRight: '1rem' }}>
-            <SimpleDropdown />
-          </div>
+          <SimpleDropdown />
           <ThemeToggle 
             $isDarkMode={isDarkMode}
             onClick={toggleDarkMode}
