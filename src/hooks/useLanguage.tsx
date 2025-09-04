@@ -48,6 +48,8 @@ const translations = {
     'exp.qualson.desc': '• Spring → Django 마이그레이션 및 API 표준화\n\n• 대규모 데이터 마이그레이션 (400만 건, 3초 처리)\n\n• 쿠폰 자동 알림 시스템 구축 (Webhook + Braze)',
     
     // Projects
+    'proj.sq3m.title': 'sq3m',
+    'proj.sq3m.desc': '자연어를 SQL 쿼리로 변환해주는 CLI 기반 DB AI Agent 도구입니다.\n\nOpenAI Completion API를 활용하여 MySQL, PostgreSQL 데이터베이스에 대한 자연어 질의를 SQL로 변환하며, Clean Architecture를 적용한 모듈러 구조로 설계되었습니다.',
     'proj.jurot.title': '주로',
     'proj.jurot.desc': "'미래를 보는데 돈은 필요 없다'라는 신념하에 시작한 프로젝트로, LLM을 활용해 사주, 타로 등 각종 운세를 무료로 제공하는 서비스입니다.\n\nKotlin/Spring Boot, MySQL, Redis 등의 기술 사용 및 Clean Architecture 적용으로 유지보수성을 확보했습니다.",
     'proj.myunsejujeom.title': '면세점주',
@@ -90,6 +92,8 @@ const translations = {
     'exp.qualson.desc': '• Migrated from Spring to Django and standardized APIs\n\n• Large-scale data migration (4M records, 3-second processing)\n\n• Built automated coupon notification system (Webhook + Braze)',
     
     // Projects
+    'proj.sq3m.title': 'sq3m',
+    'proj.sq3m.desc': 'A CLI-based DB AI Agent tool that converts natural language queries to SQL.\n\nUtilizes OpenAI Completion API to convert natural language questions about MySQL and PostgreSQL databases into SQL queries, designed with modular architecture applying Clean Architecture.',
     'proj.jurot.title': 'Jurot',
     'proj.jurot.desc': 'A project started with the belief that "money is not needed to see the future", providing various fortune-telling services such as Saju and Tarot for free using LLM.\n\nUsed technologies including Kotlin/Spring Boot, MySQL, Redis and applied Clean Architecture to ensure maintainability.',
     'proj.myunsejujeom.title': 'Myunsejeomju',

@@ -198,6 +198,16 @@ export const blogPosts: BlogPost[] = [
     githubUrl: "https://github.com/leegyurak/jurot"
   },
   {
+    title: "sq3m",
+    date: "2025-09 ~ Present",
+    excerpt: "자연어를 SQL 쿼리로 변환해주는 CLI 기반 DB AI Agent 도구입니다.\n\nOpenAI Completion API를 활용하여 MySQL, PostgreSQL 데이터베이스에 대한 자연어 질의를 SQL로 변환하며, Clean Architecture를 적용한 모듈러 구조로 설계되었습니다.",
+    image: "https://via.placeholder.com/400x200",
+    tags: ["Python", "OpenAI", "CLI", "MySQL", "PostgreSQL", "Clean Architecture"],
+    slug: "sq3m",
+    url: "https://pypi.org/project/sq3m/",
+    githubUrl: "https://github.com/leegyurak/sq3m"
+  },
+  {
     title: "면세점주",
     date: "2025-07 ~ Present",
     excerpt: "숭실대학교 대학 축제 야간주점에서 온라인 주문/결제 시스템을 활용할 수 없는 문제를 개선하기 위해 시작한 프로젝트입니다.\n\nPython/Django, MySQL, Nginx 등의 기술 사용 및 Clean Architecture 적용으로 유지보수성을 확보했습니다.",

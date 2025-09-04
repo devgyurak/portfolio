@@ -206,6 +206,8 @@ const ProjectCardComponent: React.FC<{ post: BlogPost; index: number; isDarkMode
   
   const getTitle = () => {
     switch (post.slug) {
+      case 'sq3m':
+        return t('proj.sq3m.title');
       case 'jurot':
         return t('proj.jurot.title');
       case 'myunsejujeom':
@@ -217,6 +219,8 @@ const ProjectCardComponent: React.FC<{ post: BlogPost; index: number; isDarkMode
   
   const getDescription = () => {
     switch (post.slug) {
+      case 'sq3m':
+        return t('proj.sq3m.desc');
       case 'jurot':
         return t('proj.jurot.desc');
       case 'myunsejujeom':
