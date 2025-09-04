@@ -46,6 +46,7 @@ const ProjectCard = styled.div<{ $isDarkMode: boolean; $isVisible?: boolean; $cl
   box-shadow: ${({ $isDarkMode }) => 
     $isDarkMode ? 'none' : `0 1px 3px ${theme.colors.light.shadow}`};
   cursor: ${({ $clickable }) => $clickable ? 'pointer' : 'default'};
+  overflow: visible;
   
   opacity: 0;
   transform: translate3d(0, 0, 0);
@@ -144,8 +145,10 @@ const Tag = styled.span<{ $isDarkMode: boolean }>`
 const ProjectActions = styled.div<{ $isDarkMode: boolean }>`
   margin-top: 1.5rem;
   padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
   border-top: 1px solid ${({ $isDarkMode }) => 
     $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+  overflow: visible;
 `;
 
 const ViewGithubButton = styled.a<{ $isDarkMode: boolean }>`
