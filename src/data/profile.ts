@@ -19,10 +19,17 @@ export interface EducationItem {
 }
 
 export interface ExperienceItem {
-  title: string;
+  slug: string;
+  title?: string;
   company: string;
   period: string;
-  description: string;
+  description?: string;
+  roles?: {
+    slug: string;
+    title: string;
+    period: string;
+    description: string;
+  }[];
 }
 
 export interface Publication {
@@ -75,8 +82,8 @@ export interface BlogPost {
 export const profileData: ProfileData = {
   name: "이규락",
   title: "Software Engineer |\nBackend Development",
-  description: "4년 경력의 백엔드 엔지니어로, RDBMS 성능 최적화와 안정적인 데이터 파이프라인 운영에 강점을 보유하고 있습니다.\n\nETL 처리 시간을 86% 단축하고, Adapter Pattern으로 다수 스키마를 추상화한 경험이 있습니다. 사이드 프로젝트에서는 로컬 LLM 서빙과 Clean Architecture를 실서비스에 적용하며 빠른 학습력을 입증했습니다.",
-  mobileDescription: "4년 경력의 백엔드 엔지니어로, RDBMS 성능 최적화와\n안정적인 데이터 파이프라인 운영에 강점을 보유하고 있습니다.\n\nETL 처리 시간을 86% 단축하고,\nAdapter Pattern으로 다수 스키마를 추상화한 경험이 있습니다.\n사이드 프로젝트에서는 로컬 LLM 서빙과\nClean Architecture를 실서비스에 적용하며\n빠른 학습력을 입증했습니다.",
+  description: "4년 경력의 소프트웨어 엔지니어로, 고객의 요구를 듣고 비즈니스 목표와 운영 안정성을 함께 고려해 제품을 개선하는 개발에 강점을 보유하고 있습니다.\n\n의료 AI 제품을 고객사 환경에 안정적으로 적용하기 위해 ETL 처리 시간을 86% 단축하고, Adapter Pattern으로 다수 병원 스키마를 추상화하며 Forward Deployment 관점의 현장 연동과 운영 대응을 경험했습니다. 사이드 프로젝트에서는 AI Agent 팀을 구성해 개발 생산성과 아이디어 다각화 및 고도화를 시도하여, AX Engineering 역량을 확장하고 있습니다.",
+  mobileDescription: "4년 경력의 소프트웨어 엔지니어로,\n고객의 요구를 듣고 비즈니스 목표와\n운영 안정성을 함께 고려해 제품을 개선하는\n개발에 강점을 보유하고 있습니다.\n\n의료 AI 제품을 고객사 환경에 안정적으로 적용하기 위해\nETL 처리 시간을 86% 단축하고,\nAdapter Pattern으로 다수 병원 스키마를 추상화하며\nForward Deployment 관점의 현장 연동과\n운영 대응을 경험했습니다.\n\n사이드 프로젝트에서는 AI Agent 팀을 구성해\n개발 생산성과 아이디어 다각화 및 고도화를 시도하여,\nAX Engineering 역량을 확장하고 있습니다.",
   avatar: "/profile.jpeg",
   location: "서울특별시",
   email: "dev@devgyurak.com",
@@ -96,19 +103,41 @@ export const education: EducationItem[] = [
 
 export const experience: ExperienceItem[] = [
   {
-    title: "Software Engineer",
-    company: "AITRICS",
-    period: "2023.08 - Present",
-    description: "• EMR ETL 파이프라인 성능 최적화 (15분 → 2분, -86%)\n\n• 멀티 병원 스키마 Adapter Layer 추상화로 신규 연동 리드타임 단축\n\n• Slack 워크플로우 표준화로 협업 비용 절감"
+    slug: "nrise-backend",
+    title: "Backend Engineer",
+    company: "NRISE",
+    period: "2026.03 - Present",
+    description: "• Django 레거시 시스템을 Spring Boot 기반 구조로 전환\n\n• 매출 향상을 위한 재화 가격 A/B 테스트 실행\n\n• AI(LLM)를 활용한 유저 자동 매칭 서비스 개발"
   },
   {
-    title: "Backend Developer",
+    slug: "aitrics",
+    company: "AITRICS",
+    period: "2023.08 - 2026.02",
+    roles: [
+      {
+        slug: "aitrics-be",
+        title: "Backend Engineer",
+        period: "2025.01 - 2026.02",
+        description: "• 의료 AI 제품의 백엔드 기능 개발 및 운영\n\n• 고객사 수요가 높은 스코어 전송 기능을 위한 신규 프레임워크 개발\n\n• 제품 요구사항에 맞춘 API 및 데이터 처리 로직 유지보수\n\n• 구성원의 원활한 커뮤니케이션을 위한 Slack 메신저 워크플로우 TFT 참여"
+      },
+      {
+        slug: "aitrics-fde",
+        title: "Forward Deployment Engineer",
+        period: "2023.08 - 2024.12",
+        description: "• EMR ETL 파이프라인 성능 최적화 (15분 → 2분, -86%)\n\n• 멀티 병원 스키마 Adapter Layer 추상화로 신규 연동 리드타임 단축\n\n• 고객사 전산실과의 원활한 협업을 위한 워크플로우 개선 및 현장 대응"
+      }
+    ]
+  },
+  {
+    slug: "8percent-backend",
+    title: "Backend Engineer",
     company: "8percent",
     period: "2023.01 - 2023.06",
     description: "• 검색 API 성능 최적화 (8초 → ~1초, 비용 절감)\n\n• 채권 공지 발송 안정화 (공지 누락률 1/10 감소)\n\n• 이벤트 처리 아키텍처 고도화 및 확장성 확보"
   },
   {
-    title: "Backend Developer",
+    slug: "qualson-backend",
+    title: "Backend Engineer",
     company: "Qualson",
     period: "2021.07 - 2023.01",
     description: "• Spring → Django 마이그레이션 및 API 표준화\n\n• 대규모 데이터 마이그레이션 (400만 건, 3초 처리)\n\n• 쿠폰 자동 알림 시스템 구축 (Webhook + Braze)"
@@ -164,7 +193,11 @@ export const skills: SkillCategory[] = [
   },
   {
     category: "Architecture",
-    skills: ["Clean Architecture"]
+    skills: ["Clean Architecture", "Pub/Sub"]
+  },
+  {
+    category: "AI",
+    skills: ["vLLM", "AX Engineering"]
   }
 ];
 
@@ -188,33 +221,31 @@ export const personalLinks: PersonalLink[] = [
 
 export const blogPosts: BlogPost[] = [
   {
-    title: "주로",
+    title: "Taree",
     date: "2025-08 ~ Present",
-    excerpt: "'미래를 보는데 돈은 필요 없다'라는 신념하에 시작한 프로젝트로, LLM을 활용해 사주, 타로 등 각종 운세를 무료로 제공하는 서비스입니다.\n\nKotlin/Spring Boot, MySQL, Redis 등의 기술 사용 및 Clean Architecture 적용으로 유지보수성을 확보했습니다.",
+    excerpt: "무료로 타로를 볼 수 있도록 설계한 서비스입니다.\n\nvLLM 기반 로컬 모델 서빙과 Colab 환경에서의 오픈소스 모델 파인튜닝을 적용해 응답 품질을 높였고, AI Agent Team을 운영하며 개발 생산성과 아이디어 고도화를 AX Engineering 방식으로 실험했습니다.",
     image: "https://via.placeholder.com/400x200",
-    tags: ["Kotlin", "Spring Boot", "MySQL", "Redis", "Nginx", "Clean Architecture", "mlx_lm"],
-    slug: "jurot",
-    url: "https://jurot.site",
-    githubUrl: "https://github.com/leegyurak/jurot"
+    tags: ["AX Engineering", "vLLM", "Fine-tuning"],
+    slug: "taree",
+    githubUrl: "https://github.com/atticorp/taree-orchestrator"
   },
   {
-    title: "sq3m",
+    title: "Hipchapedia",
     date: "2025-09 ~ Present",
-    excerpt: "자연어를 SQL 쿼리로 변환해주는 CLI 기반 DB AI Agent 도구입니다.\n\nOpenAI Completion API를 활용하여 MySQL, PostgreSQL 데이터베이스에 대한 자연어 질의를 SQL로 변환하며, Clean Architecture를 적용한 모듈러 구조로 설계되었습니다.",
+    excerpt: "다양한 음악 장르의 가사 의미와 맥락을 AI로 분석해주는 서비스입니다.\n\nKotlin과 Spring Boot 기반 서비스에 Clean Architecture를 적용해 구조적 유지보수성을 확보했고, Python과 Redis로 곡 제목 기반 가사 검색 모듈을 개발하며 Pub/Sub 아키텍처로 검색 처리 흐름을 설계했습니다.",
     image: "https://via.placeholder.com/400x200",
-    tags: ["Python", "OpenAI", "CLI", "MySQL", "PostgreSQL", "Clean Architecture"],
-    slug: "sq3m",
-    url: "https://pypi.org/project/sq3m/",
-    githubUrl: "https://github.com/leegyurak/sq3m"
+    tags: ["Kotlin", "Spring Boot", "Python", "MySQL", "Redis", "Clean Architecture", "Pub/Sub"],
+    slug: "hipchapedia",
+    url: "https://hipchapedia.com",
+    githubUrl: "https://github.com/leegyurak/hipchapedia"
   },
   {
     title: "면세점주",
-    date: "2025-07 ~ Present",
-    excerpt: "숭실대학교 대학 축제 야간주점에서 온라인 주문/결제 시스템을 활용할 수 없는 문제를 개선하기 위해 시작한 프로젝트입니다.\n\nPython/Django, MySQL, Nginx 등의 기술 사용 및 Clean Architecture 적용으로 유지보수성을 확보했습니다.",
+    date: "2025-07 ~ 2025.09",
+    excerpt: "숭실대학교 대학 축제 야간주점에서 온라인 주문과 결제를 활용하기 어려운 현장을 개선하기 위해 만든 서비스입니다.\n\nPython과 Django 기반으로 주문 흐름을 빠르게 구현하고, MySQL, Nginx, Clean Architecture를 적용해 행사 운영에 필요한 안정성과 유지보수성을 확보했습니다.",
     image: "https://via.placeholder.com/400x200",
     tags: ["Python", "Django", "MySQL", "Nginx", "Clean Architecture"],
     slug: "myunsejujeom",
-    url: "https://myunsejeomju.shop",
     githubUrl: "https://github.com/leegyurak/myunsejeomju"
   }
 ];

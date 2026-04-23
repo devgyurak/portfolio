@@ -11,7 +11,7 @@ const HeroContainer = styled.section<{ $isDarkMode: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 80px;
+  padding-top: 150px;
   background: transparent;
   position: relative;
 
@@ -241,7 +241,12 @@ export const HeroSection: React.FC = () => {
           <Name $isDarkMode={isDarkMode}>{getName()}</Name>
           <Title $isDarkMode={isDarkMode}>
             <TypewriterText 
-              texts={['Software Engineer', 'Backend Developer']}
+              texts={[
+                'Software Engineer',
+                'Backend Engineer',
+                'Forward Deployment Engineer',
+                'AX Engineer',
+              ]}
               speed={100}
               deleteSpeed={50}
               pauseDuration={2000}

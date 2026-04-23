@@ -96,6 +96,17 @@ const ExperienceHeader = styled.div`
 
 const TitleGroup = styled.div`
   flex: 1;
+  display: grid;
+  gap: 2rem;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: 1.35rem;
+  }
+`;
+
+const HeaderMeta = styled.div`
+  display: grid;
+  gap: 0.35rem;
 `;
 
 const JobTitle = styled.h3<{ $isDarkMode: boolean }>`
@@ -112,18 +123,18 @@ const JobTitle = styled.h3<{ $isDarkMode: boolean }>`
 `;
 
 const Company = styled.h4<{ $isDarkMode: boolean }>`
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.9375rem;
+  font-weight: 600;
   margin: 0;
   color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
   }
 `;
 
-const Period = styled.div<{ $isDarkMode: boolean }>`
+const Period = styled.div<{ $isDarkMode: boolean; $hideOnMobile?: boolean }>`
   font-size: 0.75rem;
   font-weight: 500;
   color: ${({ $isDarkMode }) => 
@@ -133,6 +144,15 @@ const Period = styled.div<{ $isDarkMode: boolean }>`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     text-align: left;
+    display: ${({ $hideOnMobile }) => ($hideOnMobile ? 'none' : 'block')};
+  }
+`;
+
+const MobilePeriod = styled(Period)`
+  display: none;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: block;
   }
 `;
 
@@ -151,23 +171,82 @@ const Description = styled.div<{ $isDarkMode: boolean }>`
   }
 `;
 
+const RolesContainer = styled.div<{ $isDarkMode: boolean }>`
+  display: grid;
+  gap: 1.5rem;
+
+  > * + * {
+    padding-top: 1.5rem;
+    border-top: 1px solid ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+  }
+`;
+
+const RoleItem = styled.div`
+  display: grid;
+  gap: 1rem;
+`;
+
+const RoleHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+`;
+
+const RoleTitle = styled.h4<{ $isDarkMode: boolean }>`
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  line-height: 1.4;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.9375rem;
+  }
+`;
+
+const RolePeriod = styled.div<{ $isDarkMode: boolean }>`
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+  white-space: nowrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    white-space: normal;
+  }
+`;
+
 
 const ExperienceCard: React.FC<{ item: ExperienceItemType; index: number; isDarkMode: boolean }> = ({ item, index, isDarkMode }) => {
   const { elementRef, isVisible } = useScrollAnimation({ delay: index * 200 });
   const { t } = useLanguage();
   
-  const getDescription = () => {
-    switch (item.company) {
-      case 'AITRICS':
-        return t('exp.aitrics.desc');
-      case '8percent':
+  const getDescription = (slug: string, fallback?: string) => {
+    switch (slug) {
+      case 'nrise-backend':
+        return t('exp.nrise.desc');
+      case 'aitrics-fde':
+        return t('exp.aitricsFde.desc');
+      case 'aitrics-be':
+        return t('exp.aitricsBe.desc');
+      case '8percent-backend':
         return t('exp.8percent.desc');
-      case 'Qualson':
+      case 'qualson-backend':
         return t('exp.qualson.desc');
       default:
-        return item.description;
+        return fallback || '';
     }
   };
+
+  const hasRoles = !!item.roles?.length;
   
   return (
     <ExperienceItem 
@@ -177,12 +256,36 @@ const ExperienceCard: React.FC<{ item: ExperienceItemType; index: number; isDark
     >
       <ExperienceHeader>
         <TitleGroup>
-          <JobTitle $isDarkMode={isDarkMode}>{item.title}</JobTitle>
-          <Company $isDarkMode={isDarkMode}>{item.company}</Company>
+          {hasRoles ? (
+            <JobTitle $isDarkMode={isDarkMode}>{item.company}</JobTitle>
+          ) : (
+            <HeaderMeta>
+              <JobTitle $isDarkMode={isDarkMode}>{item.company}</JobTitle>
+              <MobilePeriod $isDarkMode={isDarkMode}>{item.period}</MobilePeriod>
+            </HeaderMeta>
+          )}
+          {!hasRoles && item.title && <Company $isDarkMode={isDarkMode}>{item.title}</Company>}
         </TitleGroup>
-        <Period $isDarkMode={isDarkMode}>{item.period}</Period>
+        <Period $isDarkMode={isDarkMode} $hideOnMobile={!hasRoles}>{item.period}</Period>
       </ExperienceHeader>
-      <Description $isDarkMode={isDarkMode}>{getDescription()}</Description>
+
+      {hasRoles ? (
+        <RolesContainer $isDarkMode={isDarkMode}>
+          {item.roles?.map((role) => (
+            <RoleItem key={role.slug}>
+              <RoleHeader>
+                <RoleTitle $isDarkMode={isDarkMode}>{role.title}</RoleTitle>
+                <RolePeriod $isDarkMode={isDarkMode}>{role.period}</RolePeriod>
+              </RoleHeader>
+              <Description $isDarkMode={isDarkMode}>
+                {getDescription(role.slug, role.description)}
+              </Description>
+            </RoleItem>
+          ))}
+        </RolesContainer>
+      ) : (
+        <Description $isDarkMode={isDarkMode}>{getDescription(item.slug, item.description)}</Description>
+      )}
     </ExperienceItem>
   );
 };
