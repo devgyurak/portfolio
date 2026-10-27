@@ -56,7 +56,8 @@
 ## 데이터 및 번역 동기화 규칙
 - 프로필, 경력, 프로젝트, 기술 스택의 원본 데이터는 우선 `src/data/profile.ts`에서 확인합니다.
 - 실제 화면 문구는 `src/hooks/useLanguage.tsx`에도 별도로 존재할 수 있으므로, 사용자 노출 텍스트를 수정할 때는 두 파일을 함께 확인합니다.
-- 경력 설명은 `ExperienceSection`에서 회사명 기준으로 번역 키를 선택하므로, 경력 항목을 추가하거나 회사명이 바뀌면 관련 번역 키와 매핑 로직도 함께 확인합니다.
+- 경력 설명은 `ExperienceSection`의 `getDescription`에서 경력(또는 `roles`)의 `slug` 기준으로 `exp.*.desc` 번역 키를 선택하므로, 경력 항목을 추가하거나 `slug`가 바뀌면 관련 번역 키와 `switch` 분기도 함께 수정합니다.
+- 히어로 소개 문구는 `profileData.description`이 아니라 `hero.description`, `hero.mobileDescription` 번역 키로 렌더링되므로, 소개 문구 수정 시 `profile.ts`와 두 언어의 번역 키를 모두 맞춥니다.
 - 프로젝트 설명은 `ProjectsSection`에서 `slug` 기준으로 번역 키를 선택하므로, 프로젝트를 추가하거나 `slug`를 변경하면 번역 키와 분기 로직을 같이 수정합니다.
 - 기술 스택을 추가할 때는 `src/data/profile.ts`뿐 아니라 `SkillsSection`의 아이콘 매핑과 `public/icons` 파일 존재 여부도 함께 확인합니다.
 
@@ -73,6 +74,18 @@
 - 새 프로젝트 추가 시 `slug`, 외부 링크, 번역 키, 카드 렌더링이 모두 연결되는지 확인합니다.
 - 레이아웃 변경 시 모바일 화면 폭에서 줄바꿈이나 오버플로우가 없는지 확인합니다.
 - 테마 관련 수정 시 다크 모드와 라이트 모드를 모두 확인합니다.
+
+## 에이전트 설정 구조
+- 이 파일(`AGENTS.md`)이 Codex와 Claude Code가 공유하는 단일 지침 원본입니다. `CLAUDE.md`는 이 파일을 import만 하므로, 공통 지침은 이 파일에만 작성합니다.
+- 스킬 원본은 `.agents/skills/<name>/SKILL.md`에 두고, `.claude/skills/<name>`은 이를 가리키는 심볼릭 링크로 유지합니다. 스킬 frontmatter는 두 도구가 공통으로 인식하는 `name`, `description`만 사용합니다.
+  - `add-portfolio-project`: 새 사이드 프로젝트 카드 추가
+  - `update-experience`: 경력 항목 추가 및 수정
+  - `add-tech-skill`: 기술 스택 및 아이콘 추가
+  - `verify-portfolio`: 문구 동기화, 테스트, 빌드, 반응형/테마 점검
+- 파일별 세부 규칙은 `.claude/rules/`에 있습니다. Claude Code는 경로에 맞춰 자동으로 불러오며, Codex는 아래 파일을 수정하기 전에 해당 규칙 파일을 직접 읽습니다.
+  - `src/data/profile.ts`, `src/hooks/useLanguage.tsx`, 섹션 컴포넌트 문구 → `.claude/rules/content-sync.md`
+  - `src/components/**`, `src/styles/**` 스타일 → `.claude/rules/styling.md`
+- 명령 실행 정책은 Codex `.codex/rules/portfolio.rules`, Claude Code `.claude/settings.json`에 같은 의미로 정의합니다. 한쪽을 바꾸면 다른 쪽도 함께 바꿉니다.
 
 ## 검증
 - 가능하면 `npm test -- --watchAll=false`를 실행합니다.

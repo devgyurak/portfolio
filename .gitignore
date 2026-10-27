@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# AI agent settings (shared .claude/ overrides the global ignore; personal files stay local)
+!.claude/
+.claude/settings.local.json
+CLAUDE.local.md

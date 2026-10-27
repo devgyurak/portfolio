@@ -1,0 +1,42 @@
+# Codex 명령 실행 정책 (Starlark execpolicy)
+# Claude Code의 .claude/settings.json permissions와 같은 의미로 유지합니다.
+# 검증: codex execpolicy check --pretty --rules .codex/rules/portfolio.rules -- <command>
+
+prefix_rule(
+    pattern = ["git", "push", ["--force", "-f", "--force-with-lease"]],
+    decision = "forbidden",
+    justification = "원격 히스토리를 덮어쓰는 강제 푸시는 금지합니다.",
+    match = [
+        "git push --force origin main",
+        "git push -f",
+    ],
+    not_match = [
+        "git push origin main",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "커밋되지 않은 변경을 지우는 hard reset은 금지합니다.",
+    match = ["git reset --hard HEAD~1"],
+    not_match = ["git reset --soft HEAD~1"],
+)
+
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "원격 반영은 확인 후 진행합니다. 태그 푸시는 Docker Hub 배포 워크플로우를 실행합니다.",
+    match = ["git push origin main", "git push origin v1.0.0"],
+)
+
+prefix_rule(
+    pattern = ["npm", ["install", "i", "add"]],
+    decision = "prompt",
+    justification = "새 라이브러리는 정말 필요한 경우에만 추가합니다 (AGENTS.md).",
+    match = [
+        "npm install react-markdown",
+        "npm i lodash",
+    ],
+    not_match = ["npm ci"],
+)
