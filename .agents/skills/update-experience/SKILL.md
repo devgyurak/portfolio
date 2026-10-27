@@ -38,7 +38,7 @@ slug와 키 이름은 기계적으로 변환되지 않으므로, 새 키는 위 
 
 ## 4. 소개 문구 영향 확인
 
-연차나 대표 성과가 바뀌는 변경이면 히어로 소개(`hero.description`, `hero.mobileDescription`의 ko/en)와 `profileData.description`, `mobileDescription`도 함께 갱신할지 사용자에게 확인합니다. `mobileDescription`은 모바일 줄바꿈을 위해 `\n`이 수동으로 들어가 있으므로 줄 길이를 기존과 비슷하게 맞춥니다.
+연차나 대표 성과가 바뀌는 변경이면 히어로 소개(`hero.description`, `hero.mobileDescription`의 ko/en)와 `profileData.description`, `mobileDescription`도 함께 갱신할지 사용자에게 확인합니다. 한국어 `mobileDescription`은 모바일 줄바꿈을 위해 `\n`이 수동으로 들어가 있으므로 줄 길이를 기존과 비슷하게 맞춥니다. 영어 `hero.mobileDescription`은 문장 중간에 `\n`을 넣지 않고 문단 구분(`\n\n`)만 둡니다. 영어는 줄 길이가 화면 폭을 넘기 쉬워, 수동 줄바꿈이 자동 줄바꿈과 겹치면 짧은 줄이 생깁니다.
 
 ## 5. 검증
 
