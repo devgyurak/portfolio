@@ -88,8 +88,8 @@ export interface BlogPost {
 export const profileData: ProfileData = {
   name: "이규락",
   title: "Software Engineer |\nBackend Development",
-  description: "4년 경력의 소프트웨어 엔지니어로, 고객의 요구를 듣고 비즈니스 목표와 운영 안정성을 함께 고려해 제품을 개선하는 개발에 강점을 보유하고 있습니다.\n\n의료 AI 제품을 고객사 환경에 안정적으로 적용하기 위해 ETL 처리 시간을 86% 단축하고, Adapter Pattern으로 다수 병원 스키마를 추상화하며 Forward Deployment 관점의 현장 연동과 운영 대응을 경험했습니다. 사이드 프로젝트에서는 AI Agent 팀을 구성해 개발 생산성과 아이디어 다각화 및 고도화를 시도하여, AX Engineering 역량을 확장하고 있습니다.",
-  mobileDescription: "4년 경력의 소프트웨어 엔지니어로,\n고객의 요구를 듣고 비즈니스 목표와\n운영 안정성을 함께 고려해 제품을 개선하는\n개발에 강점을 보유하고 있습니다.\n\n의료 AI 제품을 고객사 환경에 안정적으로 적용하기 위해\nETL 처리 시간을 86% 단축하고,\nAdapter Pattern으로 다수 병원 스키마를 추상화하며\nForward Deployment 관점의 현장 연동과\n운영 대응을 경험했습니다.\n\n사이드 프로젝트에서는 AI Agent 팀을 구성해\n개발 생산성과 아이디어 다각화 및 고도화를 시도하여,\nAX Engineering 역량을 확장하고 있습니다.",
+  description: "끊임없이 노력하는 소프트웨어 엔지니어로, 고객의 요구를 듣고 비즈니스 목표와 운영 안정성을 함께 고려해 제품을 개선하는 개발에 강점을 보유하고 있습니다.\n\n의료 AI 제품을 고객사 환경에 안정적으로 적용하기 위해 ETL 처리 시간을 86% 단축하고, Adapter Pattern으로 다수 병원 스키마를 추상화하며 Forward Deployment 관점의 현장 연동과 운영 대응을 경험했습니다. 사이드 프로젝트에서는 AI Agent 팀을 구성해 개발 생산성과 아이디어 다각화 및 고도화를 시도하여, AX Engineering 역량을 확장하고 있습니다.",
+  mobileDescription: "끊임없이 노력하는 소프트웨어 엔지니어로,\n고객의 요구를 듣고 비즈니스 목표와\n운영 안정성을 함께 고려해 제품을 개선하는\n개발에 강점을 보유하고 있습니다.\n\n의료 AI 제품을 고객사 환경에 안정적으로 적용하기 위해\nETL 처리 시간을 86% 단축하고,\nAdapter Pattern으로 다수 병원 스키마를 추상화하며\nForward Deployment 관점의 현장 연동과\n운영 대응을 경험했습니다.\n\n사이드 프로젝트에서는 AI Agent 팀을 구성해\n개발 생산성과 아이디어 다각화 및 고도화를 시도하여,\nAX Engineering 역량을 확장하고 있습니다.",
   avatar: "/profile.jpeg",
   location: "서울특별시",
   email: "dev@devgyurak.com",
@@ -111,7 +111,7 @@ export const experience: ExperienceItem[] = [
   {
     slug: "aitrics-2026",
     title: "Backend Engineer",
-    company: "AITRICS",
+    company: "aitrics",
     period: "2026.09 - Present",
     description: "• Go 레거시 시스템을 Python으로 전환\n\n• 보안 강화를 위해 암호화 방식을 AES-128-CBC에서 AES-256-CBC로 전환\n\n• Python 모노레포 의존성 관리를 위한 uv workspace 도입 주도\n\n• 운영팀과의 협업을 위한 Jira 프로세스 수립 주도\n\n• 보안과 제품 성능을 고려한 개발을 위해 AI Agentic Workflow(Skill, Rule 등) 구축"
   },
@@ -124,7 +124,7 @@ export const experience: ExperienceItem[] = [
   },
   {
     slug: "aitrics",
-    company: "AITRICS",
+    company: "aitrics",
     period: "2023.08 - 2026.02",
     roles: [
       {
@@ -159,7 +159,7 @@ export const experience: ExperienceItem[] = [
 
 // 히어로 성과 지표: experience 설명에 있는 수치만 사용합니다. 라벨은 metric.<slug> 번역 키로 렌더링됩니다.
 export const heroMetrics: HeroMetric[] = [
-  { slug: "etl", value: "-86%", company: "AITRICS" },
+  { slug: "etl", value: "-86%", company: "aitrics" },
   { slug: "search", value: "8s → ~1s", company: "8percent" },
   { slug: "migration", value: "4M · 3s", company: "Qualson" },
   { slug: "notice", value: "1/10", company: "8percent" }
