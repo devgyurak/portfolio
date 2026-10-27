@@ -8,8 +8,8 @@ name: deploy
 # - CLOUDFLARE_ACCOUNT_ID: 대시보드 Workers & Pages 개요에 보이는 Account ID
 #
 # devgyurak.com 은 wrangler.jsonc 의 routes 로 배포할 때 Custom Domain 으로 붙습니다.
-# Actions 처럼 비대화형으로 돌면 wrangler 가 그 호스트의 충돌하는 DNS 레코드를 확인 없이 덮어씁니다.
-# 그래서 첫 배포가 곧 도메인 전환입니다. 토큰에는 devgyurak.com 존의 Workers Routes 편집 권한이 필요합니다.
+# 그 호스트에 직접 만든 A/AAAA/CNAME 레코드가 남아 있으면 배포가 실패합니다(code 100117).
+# 먼저 대시보드에서 해당 레코드를 지워야 합니다. 토큰에는 devgyurak.com 존의 Workers Routes 편집 권한이 필요합니다.
 on:
   push:
     branches: [main]
