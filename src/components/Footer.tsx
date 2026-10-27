@@ -3,80 +3,118 @@ import styled from 'styled-components';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../hooks/useLanguage';
 import { theme } from '../styles/theme';
+import { LuArrowUp, LuGithub, LuLinkedin, LuMail, LuPenLine } from 'react-icons/lu';
+import { Container, Grid } from '../styles/layout';
+import { profileData } from '../data/profile';
+import { SvgIcon } from './SvgIcon';
 
 const FooterContainer = styled.footer<{ $isDarkMode: boolean }>`
-  background: transparent;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
-  padding: 4rem 2rem 2rem;
-  margin-top: auto;
-  border-top: 1px solid ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+  margin-top: 6rem;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-top: 3.5rem;
+  }
+`;
+
+const FooterGrid = styled(Grid)<{ $isDarkMode: boolean }>`
+  align-items: center;
+  row-gap: 1rem;
+  padding: 1.5rem 0 2.5rem;
+  border-top: 2px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  font-size: 0.8125rem;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    align-items: flex-start;
+  }
+`;
+
+const Copyright = styled.p`
+  grid-column: 1 / 7;
+  margin: 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    order: 2;
+  }
+`;
+
+const Actions = styled.div`
+  grid-column: 7 / 13;
+  justify-self: end;
   display: flex;
   align-items: center;
-  min-height: 200px;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 3rem 1rem 2rem;
-    min-height: 180px;
-  }
+  gap: 1.25rem;
 `;
 
-const FooterContent = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-  font-size: 0.875rem;
-  width: 100%;
-`;
-
-const SocialLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: 1.5rem;
-  }
-`;
-
-const SocialLink = styled.a<{ $isDarkMode: boolean }>`
+const BackToTop = styled.button<{ $isDarkMode: boolean }>`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
-  text-decoration: none;
-  transition: color ${theme.animations.normal};
-  font-weight: 500;
+  gap: 0.4375rem;
+  min-height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
   font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  transition: color ${theme.animations.fast};
 
   &:hover {
-    color: ${({ $isDarkMode }) => 
-      $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+    color: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
   }
 `;
 
-const FooterIcon = styled.div<{ $isDarkMode: boolean }>`
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
-  -webkit-filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
-  opacity: 0.7;
-  transition: opacity ${theme.animations.normal};
-  
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  
-  ${SocialLink}:hover & {
-    opacity: 1;
+const SocialLinks = styled.div<{ $isDarkMode: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding-right: 1rem;
+  border-right: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-left: -7.5px;
   }
 `;
+
+const IconLink = styled.a<{ $isDarkMode: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  transition: color ${theme.animations.fast};
+
+  &:hover {
+    color: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+  }
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+`;
+
+const socialLinks = [
+  { label: profileData.email, href: `mailto:${profileData.email}`, icon: LuMail },
+  { label: 'GitHub', href: 'https://github.com/devgyurak', icon: LuGithub },
+  { label: 'Blog', href: 'https://velog.io/@devgyurak', icon: LuPenLine },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/devgyurak', icon: LuLinkedin }
+];
 
 export const Footer: React.FC = () => {
   const { isDarkMode } = useTheme();
@@ -84,29 +122,35 @@ export const Footer: React.FC = () => {
 
   return (
     <FooterContainer $isDarkMode={isDarkMode}>
-      <FooterContent>
-        <SocialLinks>
-          <SocialLink href="https://github.com/leegyurak" target="_blank" rel="noopener noreferrer" $isDarkMode={isDarkMode}>
-            <FooterIcon $isDarkMode={isDarkMode}>
-              <img src="/icons/github.svg" alt="GitHub" />
-            </FooterIcon>
-            GitHub
-          </SocialLink>
-          <SocialLink href="https://velog.io/@devgyurak" target="_blank" rel="noopener noreferrer" $isDarkMode={isDarkMode}>
-            <FooterIcon $isDarkMode={isDarkMode}>
-              <img src="/icons/velog.svg" alt="Blog" />
-            </FooterIcon>
-            Blog
-          </SocialLink>
-          <SocialLink href="https://linkedin.com/in/devgyurak" target="_blank" rel="noopener noreferrer" $isDarkMode={isDarkMode}>
-            <FooterIcon $isDarkMode={isDarkMode}>
-              <img src="/icons/linkedin.svg" alt="LinkedIn" />
-            </FooterIcon>
-            LinkedIn
-          </SocialLink>
-        </SocialLinks>
-        <p>© {new Date().getFullYear()} {t('footer.rights')}</p>
-      </FooterContent>
+      <Container>
+        <FooterGrid $isDarkMode={isDarkMode}>
+          <Copyright>© {new Date().getFullYear()} {t('footer.rights')}</Copyright>
+          <Actions>
+            <SocialLinks $isDarkMode={isDarkMode}>
+              {socialLinks.map(({ icon: Icon, ...link }) => (
+                <IconLink
+                  key={link.label}
+                  href={link.href}
+                  aria-label={link.label}
+                  title={link.label}
+                  $isDarkMode={isDarkMode}
+                  {...(link.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+                >
+                  <SvgIcon icon={Icon} />
+                </IconLink>
+              ))}
+            </SocialLinks>
+            <BackToTop
+              type="button"
+              $isDarkMode={isDarkMode}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              {t('footer.top')}
+              <SvgIcon icon={LuArrowUp} />
+            </BackToTop>
+          </Actions>
+        </FooterGrid>
+      </Container>
     </FooterContainer>
   );
 };

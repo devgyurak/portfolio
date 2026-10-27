@@ -10,101 +10,46 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden !important;
-    width: 100vw;
-    max-width: 100vw;
+    overflow-x: hidden;
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     font-family: ${theme.fonts.body};
-    background: ${theme.colors.dark.background};
-    color: ${theme.colors.dark.text};
+    background: ${theme.colors.light.background};
+    color: ${theme.colors.light.text};
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden !important;
-    width: 100vw;
-    max-width: 100vw;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    -webkit-overflow-scrolling: touch;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    overflow-x: clip;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at top right, rgba(168, 85, 247, 0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom left, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
-    animation: backgroundFloat 20s ease-in-out infinite;
+  body[data-theme='dark'] {
+    background: ${theme.colors.dark.background};
+    color: ${theme.colors.dark.text};
+    color-scheme: dark;
   }
 
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      conic-gradient(from 0deg at 50% 50%, 
-        transparent 0deg, 
-        rgba(99, 102, 241, 0.015) 60deg, 
-        transparent 120deg, 
-        rgba(168, 85, 247, 0.01) 180deg, 
-        transparent 240deg, 
-        rgba(236, 72, 153, 0.015) 300deg, 
-        transparent 360deg);
-    pointer-events: none;
-    z-index: -1;
-    animation: backgroundRotate 60s linear infinite;
-  }
-
-  @keyframes backgroundFloat {
-    0%, 100% { transform: translate(0px, 0px) scale(1); }
-    25% { transform: translate(-20px, -20px) scale(1.05); }
-    50% { transform: translate(20px, -10px) scale(0.95); }
-    75% { transform: translate(-10px, 20px) scale(1.02); }
-  }
-
-  @keyframes backgroundRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  /* Prevent horizontal overflow */
   #root {
-    overflow-x: hidden !important;
-    width: 100vw;
-    max-width: 100vw;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-x: clip;
   }
 
-  /* Ensure all containers prevent horizontal overflow */
-  * {
-    box-sizing: border-box;
+  h1, h2, h3, h4, p {
+    text-wrap: pretty;
   }
 
-  section, main, div {
-    overflow-x: hidden !important;
+  body {
+    font-variant-numeric: tabular-nums;
   }
 
-  /* Only apply 100vw constraint to specific elements that need it */
-  html, body, #root {
-    max-width: 100vw !important;
-  }
-
-  /* Extra protection for specific elements that might cause overflow */
   img, svg, canvas, video {
-    max-width: 100% !important;
+    max-width: 100%;
     height: auto;
   }
 
@@ -116,20 +61,50 @@ export const GlobalStyles = createGlobalStyle`
     color: inherit;
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
+  ::selection {
+    background: ${theme.colors.light.accent};
+    color: #ffffff;
   }
 
-  /* Hide horizontal scrollbar completely */
-  ::-webkit-scrollbar:horizontal {
-    display: none;
+  body[data-theme='dark'] ::selection {
+    background: ${theme.colors.dark.accent};
+    color: ${theme.colors.dark.background};
   }
-  
-  /* Custom vertical scrollbar */
+
+  :focus-visible {
+    outline: 2px solid ${theme.colors.light.accent};
+    outline-offset: 3px;
+  }
+
+  body[data-theme='dark'] :focus-visible {
+    outline-color: ${theme.colors.dark.accent};
+  }
+
+  @keyframes rise {
+    from {
+      transform: translate3d(0, 105%, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 0px; /* Hide horizontal scrollbar */
+    width: 10px;
+    height: 0;
   }
 
   ::-webkit-scrollbar-track {
@@ -137,34 +112,25 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: ${theme.radius.full};
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
   }
 
-  /* Dark mode scrollbar */
-  [data-theme="dark"] ::-webkit-scrollbar-track {
-    background: ${theme.colors.dark.surface};
+  body[data-theme='dark'] ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.12);
   }
 
-  [data-theme="dark"] ::-webkit-scrollbar-thumb {
-    background: ${theme.colors.dark.border};
+  body[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.24);
   }
 
-  [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-    background: ${theme.colors.dark.accent};
-  }
-  
-  /* Firefox scrollbar */
   html {
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-  }
-
-  [data-theme="dark"] html {
-    scrollbar-color: ${theme.colors.dark.border} ${theme.colors.dark.surface};
   }
 `;

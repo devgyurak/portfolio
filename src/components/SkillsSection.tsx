@@ -3,131 +3,99 @@ import styled from 'styled-components';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../hooks/useLanguage';
 import { theme } from '../styles/theme';
+import { Container, Grid, SectionShell, displayType, reveal } from '../styles/layout';
 import { SectionTitle } from './SectionTitle';
 import { skills } from '../data/profile';
 
-const SectionContainer = styled.section`
-  padding: ${theme.spacing.xxxl} 0;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: 2rem;
-  padding-right: 2rem;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing.xxl} 1rem;
-  }
+const SkillsTable = styled.div`
+  margin: 0;
 `;
 
-const SkillsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 3rem;
-  margin-top: 3rem;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-`;
-
-const SkillCategory = styled.div<{ $isDarkMode: boolean }>`
-  border: 1px solid ${({ $isDarkMode }) => 
+const SkillRow = styled(Grid)<{ $isDarkMode: boolean }>`
+  ${reveal}
+  align-items: baseline;
+  row-gap: 0.75rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid ${({ $isDarkMode }) =>
     $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
-  border-radius: ${theme.radius.lg};
-  padding: 2rem;
-  transition: all ${theme.animations.normal};
-  background: ${({ $isDarkMode }) => 
-    $isDarkMode ? 'transparent' : theme.colors.light.surface};
-  box-shadow: ${({ $isDarkMode }) => 
-    $isDarkMode ? 'none' : `0 1px 3px ${theme.colors.light.shadow}`};
 
-  &:hover {
-    border-color: ${({ $isDarkMode }) => 
-      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.text};
-    box-shadow: ${({ $isDarkMode }) => 
-      $isDarkMode 
-        ? 'none' 
-        : `0 4px 12px ${theme.colors.light.shadowMd}, 0 0 0 1px ${theme.colors.light.text}15`};
+  &:first-child {
+    border-top: none;
+    padding-top: 0;
   }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 1.5rem;
+    padding: 1.25rem 0;
+  }
+`;
+
+const RowIndex = styled.span<{ $isDarkMode: boolean }>`
+  grid-column: 1 / 3;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
   }
 `;
 
 const CategoryTitle = styled.h3<{ $isDarkMode: boolean }>`
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  grid-column: 3 / 6;
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
   color: ${({ $isDarkMode }) => 
     $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
-  text-align: center;
-  letter-spacing: 0.025em;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-column: 3 / 7;
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 0.9rem;
+    grid-column: 1 / -1;
+    font-size: 0.8125rem;
+    color: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
   }
 `;
 
 const SkillsGrid = styled.div`
+  grid-column: 6 / -1;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
+  gap: 0.5rem 2.25rem;
+  margin: 0;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-column: 7 / -1;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    grid-column: 1 / -1;
+    gap: 0.5rem 1.5rem;
+  }
 `;
 
 const SkillTag = styled.span<{ $isDarkMode: boolean }>`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
-  border-radius: ${theme.radius.full};
-  font-size: 0.875rem;
-  font-weight: 500;
+  gap: 0.625rem;
+  ${displayType}
+  font-size: clamp(1.375rem, 2vw, 1.875rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: ${({ $isDarkMode }) => 
     $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
-  transition: all ${theme.animations.normal};
-  background: transparent;
-  
-  &:hover {
-    border-color: ${({ $isDarkMode }) => 
-      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.8125rem;
-    gap: 0.375rem;
-  }
 `;
 
-const SkillIcon = styled.div<{ $isDarkMode: boolean }>`
-  width: 16px;
-  height: 16px;
+const SkillIcon = styled.img<{ $isDarkMode: boolean }>`
+  width: 0.75em;
+  height: 0.75em;
   flex-shrink: 0;
-  filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
-  -webkit-filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    width: 14px;
-    height: 14px;
-  }
+  filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1)' : 'none'};
 `;
-
-
 
 const getSkillIcon = (skillName: string): string | null => {
   const iconMap: Record<string, string> = {
@@ -156,37 +124,37 @@ export const SkillsSection: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <SectionContainer id="skills">
-      <SectionTitle 
-        isDarkMode={isDarkMode}
-      >
-        {t('section.skills')}
-      </SectionTitle>
+    <SectionShell id="skills">
+      <Container>
+        <SectionTitle 
+          isDarkMode={isDarkMode}
+          index="03"
+        >
+          {t('section.skills')}
+        </SectionTitle>
 
-      <SkillsContainer>
-        {skills.map((category, index) => (
-          <SkillCategory key={index} $isDarkMode={isDarkMode}>
-            <CategoryTitle $isDarkMode={isDarkMode}>
-              {category.category}
-            </CategoryTitle>
-            <SkillsGrid>
-              {category.skills.map((skill, skillIndex) => {
-                const iconPath = getSkillIcon(skill);
-                return (
-                  <SkillTag key={skillIndex} $isDarkMode={isDarkMode}>
-                    {iconPath && (
-                      <SkillIcon $isDarkMode={isDarkMode}>
-                        <img src={iconPath} alt={skill} />
-                      </SkillIcon>
-                    )}
-                    {skill}
-                  </SkillTag>
-                );
-              })}
-            </SkillsGrid>
-          </SkillCategory>
-        ))}
-      </SkillsContainer>
-    </SectionContainer>
+        <SkillsTable>
+          {skills.map((category, index) => (
+            <SkillRow key={category.category} $isDarkMode={isDarkMode} data-reveal>
+              <RowIndex $isDarkMode={isDarkMode}>03.{index + 1}</RowIndex>
+              <CategoryTitle $isDarkMode={isDarkMode}>
+                {category.category}
+              </CategoryTitle>
+              <SkillsGrid>
+                {category.skills.map((skill) => {
+                  const iconPath = getSkillIcon(skill);
+                  return (
+                    <SkillTag key={skill} $isDarkMode={isDarkMode}>
+                      {iconPath && <SkillIcon src={iconPath} alt="" $isDarkMode={isDarkMode} />}
+                      {skill}
+                    </SkillTag>
+                  );
+                })}
+              </SkillsGrid>
+            </SkillRow>
+          ))}
+        </SkillsTable>
+      </Container>
+    </SectionShell>
   );
 };

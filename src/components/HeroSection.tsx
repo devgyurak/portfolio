@@ -1,211 +1,302 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { IconType } from 'react-icons';
+import { LuFileText, LuGithub, LuLinkedin, LuMail, LuMapPin } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../hooks/useLanguage';
 import { theme } from '../styles/theme';
-import { profileData } from '../data/profile';
-import { TypewriterText } from './TypewriterText';
+import { Container, Grid, displayType } from '../styles/layout';
+import { profileData, heroMetrics } from '../data/profile';
+import { RotatingTitle } from './RotatingTitle';
+import { SvgIcon } from './SvgIcon';
 
-const HeroContainer = styled.section<{ $isDarkMode: boolean }>`
+// 첫 화면에 다음 섹션의 괘선이 걸리지 않도록 히어로가 최소 한 화면 높이를 차지합니다.
+const HeroContainer = styled.section`
   min-height: 100vh;
-  display: flex;
+  min-height: 100svh;
+  padding: calc(60px + 3rem) 0 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding-top: calc(56px + 2rem);
+  }
+`;
+
+const MetaBar = styled(Grid)<{ $isDarkMode: boolean }>`
   align-items: center;
-  justify-content: center;
-  padding-top: 150px;
-  background: transparent;
-  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: 3.5rem;
+  border-bottom: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
 
-  @media (max-width: 770px) {
-    min-height: calc(100vh - 80px);
-    padding-top: 100px;
-    padding-bottom: 2rem;
-    align-items: flex-start;
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin-bottom: 2.5rem;
   }
 `;
 
-const ContentWrapper = styled.div`
-  max-width: 1200px;
-  width: 100%;
-  padding: 2rem;
-  margin: 0 auto;
-  overflow: visible;
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 1.5rem;
+const IntroLabel = styled.span`
+  grid-column: 1 / 8;
+`;
+
+const MetricsLabel = styled.span`
+  grid-column: 8 / 13;
+  padding-left: ${theme.layout.gutter};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    display: none;
   }
 `;
 
-const Header = styled.header`
-  margin-bottom: 4rem;
-  
+const Main = styled.div`
+  grid-column: 1 / 8;
+  min-width: 0;
+  padding-bottom: 4rem;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-column: 1 / -1;
+    padding-bottom: 3rem;
+  }
+
+  /* 모바일에서는 자식을 Grid 흐름에 풀어, 이름·직함 바로 뒤에 성과 수치를 배치합니다. */
   @media (max-width: ${theme.breakpoints.mobile}) {
-    margin-bottom: 3rem;
+    display: contents;
   }
 `;
 
 const Name = styled.h1<{ $isDarkMode: boolean }>`
-  font-size: clamp(4rem, 8vw, 7rem);
-  font-weight: 700;
-  line-height: 1.0;
-  margin: 0 0 1rem 0;
-  color: ${({ $isDarkMode }) => 
+  overflow: hidden;
+  margin: 0 0 0.75rem;
+  ${displayType}
+  font-size: clamp(4rem, 10.5vw, 10.5rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  white-space: pre-line;
+  color: ${({ $isDarkMode }) =>
     $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
-  letter-spacing: -0.04em;
-  padding-bottom: 0.1em;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: clamp(4.5rem, 15vw, 6rem);
+    font-size: 25vw;
+    margin-bottom: 0.5rem;
+  }
+
+  > span {
+    display: block;
+    padding-bottom: 0.06em;
+    animation: rise 0.9s ${theme.animations.easing} both;
   }
 `;
 
-const Title = styled.h2<{ $isDarkMode: boolean }>`
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 400;
-  line-height: 1.4;
-  margin: 0 0 2rem 0;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
-  white-space: pre-line;
-  position: relative;
-  overflow: visible;
-  padding-bottom: 0.2em;
+const Role = styled.div<{ $isDarkMode: boolean }>`
+  ${displayType}
+  font-size: clamp(1.625rem, 3.2vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  min-height: 1.2em;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
 `;
 
-const Description = styled.div<{ $isDarkMode: boolean }>`
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: ${({ $isDarkMode }) => 
+const Location = styled.p<{ $isDarkMode: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  margin: 1rem 0 2.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: ${({ $isDarkMode }) =>
     $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
-  margin-bottom: 3rem;
-  max-width: 700px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin: 0.75rem 0 2rem;
+  }
+`;
+
+const Description = styled.p<{ $isDarkMode: boolean }>`
+  max-width: 36rem;
+  margin: 0 0 3rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
   white-space: pre-line;
   word-break: keep-all;
   overflow-wrap: break-word;
-  
+
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 1rem;
+    order: 2;
+    font-size: 0.9375rem;
     margin-bottom: 2rem;
-    line-height: 1.5;
   }
 `;
 
-const ContactGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-top: 4rem;
-  padding-top: 4px;
-  overflow: visible;
-  
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 3rem;
-    padding-top: 4px;
-  }
-`;
-
-const ContactCard = styled.a<{ $isDarkMode: boolean }>`
-  display: block;
-  padding: 1.5rem;
-  border: 1px solid ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
-  border-radius: ${theme.radius.lg};
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: ${({ $isDarkMode }) => 
-    $isDarkMode ? 'transparent' : theme.colors.light.surface};
-  box-shadow: ${({ $isDarkMode }) => 
-    $isDarkMode ? 'none' : `0 1px 3px ${theme.colors.light.shadow}`};
-  will-change: transform, border-color, box-shadow;
-  
-  &:hover {
-    border-color: ${({ $isDarkMode }) => 
-      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.text};
-    box-shadow: ${({ $isDarkMode }) => 
-      $isDarkMode 
-        ? '0 4px 12px rgba(255, 255, 255, 0.05)' 
-        : `0 4px 12px ${theme.colors.light.shadowMd}, 0 0 0 1px ${theme.colors.light.text}20`};
-    transform: translateY(-2px);
-  }
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 1.5rem;
-  }
-`;
-
-const ContactLabel = styled.div<{ $isDarkMode: boolean }>`
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-`;
-
-const ContactValue = styled.div<{ $isDarkMode: boolean }>`
-  font-size: 1rem;
-  font-weight: 500;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+const LinkList = styled.ul`
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  word-break: break-all;
-  
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
   @media (max-width: ${theme.breakpoints.mobile}) {
+    order: 3;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.75rem 2.5rem;
+  }
+`;
+
+const LinkItem = styled.a<{ $isDarkMode: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  min-height: 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  border-bottom: 1px solid currentColor;
+  transition: color ${theme.animations.fast};
+
+  svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+  }
+`;
+
+const Figures = styled.div<{ $isDarkMode: boolean }>`
+  grid-column: 8 / 13;
+  min-width: 0;
+  padding-left: ${theme.layout.gutter};
+  border-left: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-column: 1 / -1;
+    padding: 2.5rem 0 0;
+    border-left: none;
+    border-top: 1px solid ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    order: 1;
+    padding-top: 1.5rem;
+    margin-bottom: 3rem;
+  }
+`;
+
+const BigFigure = styled.div<{ $isDarkMode: boolean }>`
+  ${displayType}
+  font-size: clamp(6.5rem, 14vw, 14rem);
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  margin-left: -0.05em;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+  white-space: nowrap;
+`;
+
+const BigCaption = styled.p<{ $isDarkMode: boolean }>`
+  margin: 1.75rem 0 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  word-break: keep-all;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin: 1.25rem 0 1.5rem;
     font-size: 0.9375rem;
   }
 `;
 
-const IconWrapper = styled.div<{ $isDarkMode: boolean }>`
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
-  -webkit-filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    display: block;
+const CaptionMeta = styled.span<{ $isDarkMode: boolean }>`
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+`;
+
+const MetricTable = styled.dl`
+  margin: 0;
+`;
+
+const MetricRow = styled.div<{ $isDarkMode: boolean }>`
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-top: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    grid-template-columns: 6.25rem minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 0.75rem 0;
   }
 `;
 
-const StatusIndicator = styled.div<{ $isDarkMode: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+const MetricValue = styled.dd<{ $isDarkMode: boolean }>`
+  order: -1;
+  margin: 0;
+  ${displayType}
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 1.375rem;
+  }
+`;
+
+const MetricLabel = styled.dt<{ $isDarkMode: boolean }>`
   font-size: 0.875rem;
-  font-weight: 500;
-  color: ${({ $isDarkMode }) => 
+  line-height: 1.45;
+  color: ${({ $isDarkMode }) =>
     $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
-  margin-top: 1rem;
-  font-family: ${theme.fonts.mono};
-  
-  &::before {
-    content: '●';
-    color: #22c55e;
-    font-size: 0.75rem;
-    animation: status-pulse 2s infinite;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 0.8125rem;
   }
-  
-  @keyframes status-pulse {
-    0%, 100% { 
-      opacity: 1; 
-      transform: scale(1);
-    }
-    50% { 
-      opacity: 0.6;
-      transform: scale(0.95);
-    }
-  }
+`;
+
+const MetricCompany = styled.span<{ $isDarkMode: boolean }>`
+  display: block;
+  font-size: 0.75rem;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
 `;
 
 export const HeroSection: React.FC = () => {
@@ -231,102 +322,88 @@ export const HeroSection: React.FC = () => {
   };
 
   const getName = () => {
-    return language === 'ko' ? '이규락' : 'Gyurak Lee';
+    return language === 'ko' ? '이규락' : 'Gyurak\nLee';
   };
 
+  const [leadMetric, ...otherMetrics] = heroMetrics;
+
+  const links = [
+    { label: t('hero.email'), icon: LuMail, href: `mailto:${profileData.email}`, title: profileData.email },
+    profileData.github && { label: 'GitHub', icon: LuGithub, href: profileData.github },
+    profileData.linkedin && { label: 'LinkedIn', icon: LuLinkedin, href: profileData.linkedin },
+    { label: 'Resume', icon: LuFileText, href: 'https://cdn.devgyurak.com/resume_leegyurak.pdf', title: t('hero.resume'), download: 'resume_leegyurak.pdf' }
+  ].filter(Boolean) as { label: string; icon: IconType; href: string; title?: string; download?: string }[];
+
   return (
-    <HeroContainer id="home" $isDarkMode={isDarkMode}>
-      <ContentWrapper>
-        <Header>
-          <Name $isDarkMode={isDarkMode}>{getName()}</Name>
-          <Title $isDarkMode={isDarkMode}>
-            <TypewriterText 
-              texts={[
-                'Software Engineer',
-                'Backend Engineer',
-                'Forward Deployment Engineer',
-                'AX Engineer',
-              ]}
-              speed={100}
-              deleteSpeed={50}
-              pauseDuration={2000}
-              isDarkMode={isDarkMode}
-            />
-          </Title>
-          <Description $isDarkMode={isDarkMode}>
-            {getDescription()}
-          </Description>
-          <StatusIndicator $isDarkMode={isDarkMode}>
-            {t('hero.status')}
-          </StatusIndicator>
-        </Header>
+    <HeroContainer id="home">
+      <Container>
+        <MetaBar $isDarkMode={isDarkMode}>
+          <IntroLabel>{t('hero.intro')}</IntroLabel>
+          <MetricsLabel>{t('hero.metrics')}</MetricsLabel>
+        </MetaBar>
 
-        <ContactGrid>
-          <ContactCard 
-            href={`mailto:${profileData.email}`}
-            $isDarkMode={isDarkMode}
-          >
-            <ContactLabel $isDarkMode={isDarkMode}>{t('hero.email')}</ContactLabel>
-            <ContactValue $isDarkMode={isDarkMode}>
-              <IconWrapper $isDarkMode={isDarkMode}>
-                <img src="/icons/email.svg" alt="Email" />
-              </IconWrapper>
-              {profileData.email}
-            </ContactValue>
-          </ContactCard>
+        <Grid>
+          <Main>
+            <Name $isDarkMode={isDarkMode}>
+              <span key={language}>{getName()}</span>
+            </Name>
+            <Role $isDarkMode={isDarkMode}>
+              <RotatingTitle
+                texts={[
+                  'Software Engineer',
+                  'Backend Engineer',
+                  'Forward Deployed Engineer',
+                  'AX Engineer',
+                ]}
+              />
+            </Role>
+            <Location $isDarkMode={isDarkMode}>
+              <SvgIcon icon={LuMapPin} />
+              {t('hero.location')}
+            </Location>
 
-          {profileData.linkedin && (
-            <ContactCard 
-              href={profileData.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              $isDarkMode={isDarkMode}
-            >
-              <ContactLabel $isDarkMode={isDarkMode}>LinkedIn</ContactLabel>
-              <ContactValue $isDarkMode={isDarkMode}>
-                <IconWrapper $isDarkMode={isDarkMode}>
-                  <img src="/icons/linkedin.svg" alt="LinkedIn" />
-                </IconWrapper>
-                {t('hero.linkedin')}
-              </ContactValue>
-            </ContactCard>
-          )}
+            <Description $isDarkMode={isDarkMode}>
+              {getDescription()}
+            </Description>
 
-          {profileData.github && (
-            <ContactCard 
-              href={profileData.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              $isDarkMode={isDarkMode}
-            >
-              <ContactLabel $isDarkMode={isDarkMode}>GitHub</ContactLabel>
-              <ContactValue $isDarkMode={isDarkMode}>
-                <IconWrapper $isDarkMode={isDarkMode}>
-                  <img src="/icons/github.svg" alt="GitHub" />
-                </IconWrapper>
-                {t('hero.github')}
-              </ContactValue>
-            </ContactCard>
-          )}
+            <LinkList>
+              {links.map(({ label, icon: Icon, href, title, download }) => (
+                <li key={label}>
+                  <LinkItem
+                    href={href}
+                    title={title}
+                    $isDarkMode={isDarkMode}
+                    {...(href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+                    {...(download ? { download } : {})}
+                  >
+                    <SvgIcon icon={Icon} />
+                    {label}
+                  </LinkItem>
+                </li>
+              ))}
+            </LinkList>
+          </Main>
 
-          <ContactCard 
-            href="https://cdn.devgyurak.com/resume_leegyurak.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            download="resume_leegyurak.pdf"
-            $isDarkMode={isDarkMode}
-          >
-            <ContactLabel $isDarkMode={isDarkMode}>Resume</ContactLabel>
-            <ContactValue $isDarkMode={isDarkMode}>
-              <IconWrapper $isDarkMode={isDarkMode}>
-                <img src="/icons/resume.svg" alt="Resume" />
-              </IconWrapper>
-              {t('hero.resume')}
-            </ContactValue>
-          </ContactCard>
-
-        </ContactGrid>
-      </ContentWrapper>
+          <Figures $isDarkMode={isDarkMode}>
+            <BigFigure $isDarkMode={isDarkMode}>{leadMetric.value}</BigFigure>
+            <BigCaption $isDarkMode={isDarkMode}>
+              {t(`metric.${leadMetric.slug}`)}
+              <CaptionMeta $isDarkMode={isDarkMode}>{leadMetric.company}</CaptionMeta>
+            </BigCaption>
+            <MetricTable>
+              {otherMetrics.map((metric) => (
+                <MetricRow key={metric.slug} $isDarkMode={isDarkMode}>
+                  <MetricLabel $isDarkMode={isDarkMode}>
+                    {t(`metric.${metric.slug}`)}
+                    <MetricCompany $isDarkMode={isDarkMode}>{metric.company}</MetricCompany>
+                  </MetricLabel>
+                  <MetricValue $isDarkMode={isDarkMode}>{metric.value}</MetricValue>
+                </MetricRow>
+              ))}
+            </MetricTable>
+          </Figures>
+        </Grid>
+      </Container>
     </HeroContainer>
   );
 };

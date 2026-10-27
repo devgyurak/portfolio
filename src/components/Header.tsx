@@ -1,215 +1,301 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../hooks/useLanguage';
 import { theme } from '../styles/theme';
+import { LuMoon, LuSun } from 'react-icons/lu';
+import { Container, displayType } from '../styles/layout';
 import SimpleDropdown from './SimpleDropdown';
+import { SvgIcon } from './SvgIcon';
 
 const HeaderContainer = styled.header<{ $isDarkMode: boolean }>`
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  max-width: 100vw !important;
-  z-index: 1000 !important;
-  background: ${({ $isDarkMode }) => 
-    $isDarkMode ? 'rgba(0, 0, 0, 0.95)' : 'rgba(250, 250, 250, 0.95)'} !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  border-bottom: 1px solid ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border} !important;
-  transition: all 0.3s ease !important;
-  box-shadow: ${({ $isDarkMode }) => 
-    $isDarkMode 
-      ? '0 1px 0 rgba(255, 255, 255, 0.1)' 
-      : '0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 3px rgba(0, 0, 0, 0.05)'} !important;
-  overflow: visible !important;
-  box-sizing: border-box !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.background : theme.colors.light.background};
+  border-bottom: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 `;
 
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
-  overflow: visible !important;
-  box-sizing: border-box;
-  position: relative;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: 1.25rem 1.5rem;
-  }
+  height: 60px;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 1rem;
+    height: 56px;
   }
 `;
 
-const Logo = styled.div<{ $isDarkMode: boolean }>`
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
-  cursor: pointer;
-  transition: opacity ${theme.animations.normal};
+const Logo = styled.a<{ $isDarkMode: boolean }>`
+  ${displayType}
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 1.125rem;
+  font-weight: 800;
   letter-spacing: -0.02em;
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const NavLinks = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-  margin-left: auto;
-  margin-right: 3rem;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    gap: 2rem;
-    margin-right: 2rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    display: none;
-  }
-`;
-
-const NavLink = styled.a<{ $isDarkMode: boolean }>`
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.875rem;
-  transition: color ${theme.animations.normal};
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-
-  &:hover {
-    color: ${({ $isDarkMode }) => 
-      $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
-  }
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: 1rem;
-    text-transform: none;
-    letter-spacing: 0;
-  }
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
 `;
 
-
-const ThemeToggle = styled.button<{ $isDarkMode: boolean }>`
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  transition: all ${theme.animations.normal};
-  display: flex;
-  align-items: center;
-  justify-content: center;
+// 4×4 격자로 짠 G 심볼입니다. 한 칸이 4px이 되도록 16px로 그리고, 가로획 칸만 시그널 레드로 채웁니다.
+// 파비콘(public/favicon.svg)과 같은 도형입니다.
+const LogoMark = styled.svg<{ $isDarkMode: boolean }>`
   flex-shrink: 0;
-  filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
-  -webkit-filter: ${({ $isDarkMode }) => $isDarkMode ? 'invert(1) brightness(1)' : 'none'} !important;
+  width: 16px;
+  height: 16px;
 
-  &:hover {
-    opacity: 0.7;
-  }
-  
-  img {
-    width: 24px;
-    height: 24px;
-    display: block;
+  .block {
+    fill: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
   }
 `;
-
-
-
 
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  overflow: visible !important;
-  flex-shrink: 0;
-  position: relative;
+  gap: 1.5rem;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: 0.5rem;
+    gap: 1rem;
   }
 `;
+
+const IconButton = styled.button<{ $isDarkMode: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  transition: color ${theme.animations.fast};
+
+  &:hover {
+    color: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+  }
+
+  svg {
+    width: 19px;
+    height: 19px;
+  }
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  margin-right: -10px;
+`;
+
+// 두 줄 햄버거가 열릴 때 X로 겹쳐집니다.
+const Burger = styled.span<{ $isOpen: boolean }>`
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 12px;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: currentColor;
+    transition: top 0.35s ${theme.animations.easing}, transform 0.35s ${theme.animations.easing};
+  }
+
+  &::before {
+    top: ${({ $isOpen }) => ($isOpen ? '5.25px' : '2px')};
+    transform: rotate(${({ $isOpen }) => ($isOpen ? '45deg' : '0')});
+  }
+
+  &::after {
+    top: ${({ $isOpen }) => ($isOpen ? '5.25px' : '8.5px')};
+    transform: rotate(${({ $isOpen }) => ($isOpen ? '-45deg' : '0')});
+  }
+`;
+
+const MenuPanel = styled.div<{ $isDarkMode: boolean; $isOpen: boolean }>`
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  right: 0;
+  clip-path: inset(0 0 ${({ $isOpen }) => ($isOpen ? '0' : '100%')} 0);
+  visibility: ${({ $isOpen }) => ($isOpen ? 'visible' : 'hidden')};
+  transition:
+    clip-path 0.5s ${theme.animations.easing},
+    visibility 0s linear ${({ $isOpen }) => ($isOpen ? '0s' : '0.5s')};
+  background: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.background : theme.colors.light.background};
+  border-bottom: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+`;
+
+const MenuList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+
+  li:last-child > a {
+    border-bottom: none;
+  }
+`;
+
+const MenuItem = styled.li<{ $isOpen: boolean; $index: number }>`
+  overflow: hidden;
+
+  > a {
+    transform: translateY(${({ $isOpen }) => ($isOpen ? '0' : '105%')});
+    transition: transform 0.6s ${theme.animations.easing}
+      ${({ $isOpen, $index }) => ($isOpen ? `${0.1 + $index * 0.06}s` : '0s')};
+  }
+`;
+
+const MenuLink = styled.a<{ $isDarkMode: boolean }>`
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+  ${displayType}
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  transition: color ${theme.animations.fast};
+
+  &:hover {
+    color: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+  }
+`;
+
+const MenuIndex = styled.span<{ $isDarkMode: boolean }>`
+  min-width: 2rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+`;
+
+const navItems = ['experience', 'projects', 'skills'];
 
 export const Header: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { t } = useLanguage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMenuOpen(false);
+    };
+    const handlePointerDown = (e: PointerEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) setIsMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [isMenuOpen]);
 
   const scrollToSection = (sectionId: string) => {
+    setIsMenuOpen(false);
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80;
-      const elementPosition = element.offsetTop - offset;
+      const offset = 60;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({
-        top: elementPosition,
+        top: sectionId === 'home' ? 0 : elementPosition,
         behavior: 'smooth'
       });
     }
   };
 
   return (
-    <HeaderContainer $isDarkMode={isDarkMode}>
-      <Nav>
-        <Logo $isDarkMode={isDarkMode} onClick={() => scrollToSection('home')}>
-          Devgyurak
-        </Logo>
-        
-        <NavLinks>
-          <NavLink 
-            href="#experience" 
+    <HeaderContainer ref={headerRef} $isDarkMode={isDarkMode}>
+      <Container>
+        <Nav>
+          <Logo
+            href="#home"
             $isDarkMode={isDarkMode}
             onClick={(e) => {
               e.preventDefault();
-              scrollToSection('experience');
+              scrollToSection('home');
             }}
           >
-            {t('nav.experience')}
-          </NavLink>
-          <NavLink 
-            href="#projects" 
-            $isDarkMode={isDarkMode}
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('projects');
-            }}
-          >
-            {t('nav.projects')}
-          </NavLink>
-          <NavLink 
-            href="#skills" 
-            $isDarkMode={isDarkMode}
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('skills');
-            }}
-          >
-            {t('nav.skills')}
-          </NavLink>
-        </NavLinks>
+            <LogoMark $isDarkMode={isDarkMode} viewBox="32 32 192 192" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M32 32H224V80H80V176H176V128H224V224H32Z" />
+              <path className="block" d="M128 128H176V176H128Z" />
+            </LogoMark>
+            Devgyurak
+          </Logo>
 
-        <RightSection>
-          <SimpleDropdown />
-          <ThemeToggle 
-            $isDarkMode={isDarkMode}
-            onClick={toggleDarkMode}
-            aria-label="Toggle theme"
-          >
-            <img src="/icons/darkmode.svg" alt="Toggle theme" />
-          </ThemeToggle>
-        </RightSection>
-      </Nav>
+          <RightSection>
+            <SimpleDropdown />
+            <Buttons>
+              <IconButton
+                $isDarkMode={isDarkMode}
+                onClick={toggleDarkMode}
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? <SvgIcon icon={LuSun} /> : <SvgIcon icon={LuMoon} />}
+              </IconButton>
+              <IconButton
+                $isDarkMode={isDarkMode}
+                onClick={() => setIsMenuOpen((open) => !open)}
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMenuOpen}
+                aria-controls="site-menu"
+              >
+                <Burger $isOpen={isMenuOpen} aria-hidden="true" />
+              </IconButton>
+            </Buttons>
+          </RightSection>
+        </Nav>
+      </Container>
+
+      <MenuPanel id="site-menu" $isDarkMode={isDarkMode} $isOpen={isMenuOpen}>
+        <Container>
+          <MenuList>
+            {navItems.map((id, index) => (
+              <MenuItem key={id} $isOpen={isMenuOpen} $index={index}>
+                <MenuLink
+                  href={`#${id}`}
+                  $isDarkMode={isDarkMode}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(id);
+                  }}
+                >
+                  <MenuIndex $isDarkMode={isDarkMode}>{String(index + 1).padStart(2, '0')}</MenuIndex>
+                  {t(`nav.${id}`)}
+                </MenuLink>
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Container>
+      </MenuPanel>
     </HeaderContainer>
   );
 };

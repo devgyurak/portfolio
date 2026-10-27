@@ -3,234 +3,206 @@ import styled from 'styled-components';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../hooks/useLanguage';
 import { theme } from '../styles/theme';
+import { Container, Grid, SectionShell, displayType, reveal } from '../styles/layout';
 import { experience, ExperienceItem as ExperienceItemType } from '../data/profile';
 import { SectionTitle } from './SectionTitle';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
-const SectionContainer = styled.section`
-  padding: ${theme.spacing.xxxl} 0;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  overflow: visible;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: ${theme.spacing.xxl} 1rem;
-  }
-`;
-
-const ExperienceGrid = styled.div`
-  display: grid;
-  gap: 2rem;
-  margin-top: 3rem;
-  overflow: visible;
-  min-height: 700px;
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    min-height: 900px;
-  }
-`;
-
-const ExperienceItem = styled.div<{ $isDarkMode: boolean; $isVisible: boolean }>`
-  border: 1px solid ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
-  border-radius: ${theme.radius.lg};
-  padding: 2rem;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  background: ${({ $isDarkMode }) => 
-    $isDarkMode ? 'transparent' : theme.colors.light.surface};
-  box-shadow: ${({ $isDarkMode }) => 
-    $isDarkMode ? 'none' : `0 1px 3px ${theme.colors.light.shadow}`};
-  overflow: visible;
-  
-  opacity: 0;
-  transform: translate3d(0, 0, 0);
-  will-change: ${({ $isVisible }) => $isVisible ? 'opacity' : 'auto'};
-  animation: ${({ $isVisible }) => $isVisible ? 'fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none'};
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  &:hover {
-    border-color: ${({ $isDarkMode }) => 
-      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.text};
-    box-shadow: ${({ $isDarkMode }) => 
-      $isDarkMode 
-        ? 'none' 
-        : `0 4px 12px ${theme.colors.light.shadowMd}, 0 0 0 1px ${theme.colors.light.text}15`};
-  }
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: 1.5rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 1rem;
-  }
-`;
-
-const ExperienceHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-  gap: 1rem;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-`;
-
-const TitleGroup = styled.div`
-  flex: 1;
-  display: grid;
-  gap: 2rem;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    gap: 1.35rem;
-  }
-`;
-
-const HeaderMeta = styled.div`
-  display: grid;
-  gap: 0.35rem;
-`;
-
-const JobTitle = styled.h3<{ $isDarkMode: boolean }>`
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem 0;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
-  line-height: 1.4;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 1rem;
-  }
-`;
-
-const Company = styled.h4<{ $isDarkMode: boolean }>`
-  font-size: 0.9375rem;
-  font-weight: 600;
+const Rows = styled.ol`
+  list-style: none;
   margin: 0;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
+  padding: 0;
+`;
 
+const Row = styled(Grid)<{ $isDarkMode: boolean }>`
+  ${reveal}
+  row-gap: 0.75rem;
+  padding: 2.5rem 0;
+  border-top: 1px solid ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+
+  &:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  /* 모바일에서는 회사명과 기간을 한 줄에 두고, 역할 목록을 아래로 내립니다. */
   @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 0.875rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: 1rem;
+    padding: 2rem 0;
   }
 `;
 
-const Period = styled.div<{ $isDarkMode: boolean; $hideOnMobile?: boolean }>`
-  font-size: 0.75rem;
+const Period = styled.div<{ $isDarkMode: boolean; $current: boolean }>`
+  grid-column: 1 / 3;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  font-size: 0.8125rem;
   font-weight: 500;
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
-  text-align: right;
   white-space: nowrap;
+  color: ${({ $isDarkMode, $current }) => {
+    const colors = $isDarkMode ? theme.colors.dark : theme.colors.light;
+    return $current ? colors.text : colors.textMuted;
+  }};
+
+  &::before {
+    content: '';
+    display: ${({ $current }) => ($current ? 'block' : 'none')};
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: ${theme.radius.full};
+    background: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
+  }
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    white-space: normal;
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    text-align: left;
-    display: ${({ $hideOnMobile }) => ($hideOnMobile ? 'none' : 'block')};
+    order: 1;
+    padding-top: 0;
+    white-space: nowrap;
   }
 `;
 
-const MobilePeriod = styled(Period)`
-  display: none;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    display: block;
-  }
+const Company = styled.h3<{ $isDarkMode: boolean }>`
+  grid-column: 3 / 6;
+  margin: 0;
+  ${displayType}
+  font-size: clamp(1.875rem, 2.8vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
 `;
 
-const Description = styled.div<{ $isDarkMode: boolean }>`
-  color: ${({ $isDarkMode }) => 
-    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
-  line-height: 1.6;
-  white-space: pre-line;
-  font-size: 0.875rem;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 0.8125rem;
-    line-height: 1.5;
-  }
-`;
-
-const RolesContainer = styled.div<{ $isDarkMode: boolean }>`
+const Roles = styled.div`
+  grid-column: 6 / -1;
   display: grid;
-  gap: 1.5rem;
+  gap: 2rem;
+  min-width: 0;
 
-  > * + * {
-    padding-top: 1.5rem;
-    border-top: 1px solid ${({ $isDarkMode }) =>
-      $isDarkMode ? theme.colors.dark.border : theme.colors.light.border};
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    order: 2;
+    flex-basis: 100%;
+    margin-top: 0;
+    gap: 1.75rem;
   }
 `;
 
-const RoleItem = styled.div`
+const RoleBlock = styled.div`
   display: grid;
-  gap: 1rem;
+  gap: 0.875rem;
 `;
 
 const RoleHeader = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  gap: 0.25rem 1rem;
+  padding-top: 0.5rem;
 `;
 
 const RoleTitle = styled.h4<{ $isDarkMode: boolean }>`
-  font-size: 1rem;
-  font-weight: 600;
   margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: ${({ $isDarkMode }) =>
     $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
-  line-height: 1.4;
+`;
+
+const RolePeriod = styled.span<{ $isDarkMode: boolean }>`
+  font-size: 0.8125rem;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+  white-space: nowrap;
+`;
+
+const BulletList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+`;
+
+const Bullet = styled.li<{ $isDarkMode: boolean }>`
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textSecondary : theme.colors.light.textSecondary};
+  word-break: keep-all;
+  overflow-wrap: break-word;
+
+  &::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: ${({ $isDarkMode }) =>
+      $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+  }
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 0.9375rem;
   }
 `;
 
-const RolePeriod = styled.div<{ $isDarkMode: boolean }>`
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: ${({ $isDarkMode }) =>
-    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+const Figure = styled.strong<{ $isDarkMode: boolean }>`
+  margin-left: 0.5rem;
+  font-weight: 700;
   white-space: nowrap;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     white-space: normal;
   }
 `;
 
+// 문장 끝의 "(15분 → 2분, -86%)"처럼 숫자가 들어간 괄호를 성과 수치로 분리해 강조합니다.
+const METRIC_PATTERN = /^(.*?)\s*\(([^()]*\d[^()]*)\)\s*$/;
 
-const ExperienceCard: React.FC<{ item: ExperienceItemType; index: number; isDarkMode: boolean }> = ({ item, index, isDarkMode }) => {
-  const { elementRef, isVisible } = useScrollAnimation({ delay: index * 200 });
+const DescriptionList: React.FC<{ text: string; isDarkMode: boolean }> = ({ text, isDarkMode }) => {
+  const lines = text
+    .split('\n')
+    .map((line) => line.replace(/^•\s*/, '').trim())
+    .filter(Boolean);
+
+  return (
+    <BulletList>
+      {lines.map((line) => {
+        const match = line.match(METRIC_PATTERN);
+        return (
+          <Bullet key={line} $isDarkMode={isDarkMode}>
+            {match ? match[1] : line}
+            {match && <Figure $isDarkMode={isDarkMode}>{match[2]}</Figure>}
+          </Bullet>
+        );
+      })}
+    </BulletList>
+  );
+};
+
+const ExperienceRow: React.FC<{ item: ExperienceItemType; isDarkMode: boolean }> = ({ item, isDarkMode }) => {
   const { t } = useLanguage();
-  
+
   const getDescription = (slug: string, fallback?: string) => {
     switch (slug) {
+      case 'aitrics-2026':
+        return t('exp.aitrics2026.desc');
       case 'nrise-backend':
         return t('exp.nrise.desc');
       case 'aitrics-fde':
@@ -246,47 +218,31 @@ const ExperienceCard: React.FC<{ item: ExperienceItemType; index: number; isDark
     }
   };
 
-  const hasRoles = !!item.roles?.length;
-  
-  return (
-    <ExperienceItem 
-      ref={elementRef as any}
-      $isDarkMode={isDarkMode}
-      $isVisible={isVisible}
-    >
-      <ExperienceHeader>
-        <TitleGroup>
-          {hasRoles ? (
-            <JobTitle $isDarkMode={isDarkMode}>{item.company}</JobTitle>
-          ) : (
-            <HeaderMeta>
-              <JobTitle $isDarkMode={isDarkMode}>{item.company}</JobTitle>
-              <MobilePeriod $isDarkMode={isDarkMode}>{item.period}</MobilePeriod>
-            </HeaderMeta>
-          )}
-          {!hasRoles && item.title && <Company $isDarkMode={isDarkMode}>{item.title}</Company>}
-        </TitleGroup>
-        <Period $isDarkMode={isDarkMode} $hideOnMobile={!hasRoles}>{item.period}</Period>
-      </ExperienceHeader>
+  const roles = item.roles?.length
+    ? item.roles
+    : [{ slug: item.slug, title: item.title || '', period: '', description: item.description || '' }];
 
-      {hasRoles ? (
-        <RolesContainer $isDarkMode={isDarkMode}>
-          {item.roles?.map((role) => (
-            <RoleItem key={role.slug}>
-              <RoleHeader>
-                <RoleTitle $isDarkMode={isDarkMode}>{role.title}</RoleTitle>
-                <RolePeriod $isDarkMode={isDarkMode}>{role.period}</RolePeriod>
-              </RoleHeader>
-              <Description $isDarkMode={isDarkMode}>
-                {getDescription(role.slug, role.description)}
-              </Description>
-            </RoleItem>
-          ))}
-        </RolesContainer>
-      ) : (
-        <Description $isDarkMode={isDarkMode}>{getDescription(item.slug, item.description)}</Description>
-      )}
-    </ExperienceItem>
+  return (
+    <Row as="li" $isDarkMode={isDarkMode} data-reveal>
+      <Period $isDarkMode={isDarkMode} $current={item.period.includes('Present')}>
+        {item.period}
+      </Period>
+      <Company $isDarkMode={isDarkMode}>{item.company}</Company>
+      <Roles>
+        {roles.map((role) => (
+          <RoleBlock key={role.slug}>
+            <RoleHeader>
+              <RoleTitle $isDarkMode={isDarkMode}>{role.title}</RoleTitle>
+              {role.period && <RolePeriod $isDarkMode={isDarkMode}>{role.period}</RolePeriod>}
+            </RoleHeader>
+            <DescriptionList
+              text={getDescription(role.slug, role.description)}
+              isDarkMode={isDarkMode}
+            />
+          </RoleBlock>
+        ))}
+      </Roles>
+    </Row>
   );
 };
 
@@ -295,22 +251,24 @@ export const ExperienceSection: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <SectionContainer id="experience">
-      <SectionTitle 
-        isDarkMode={isDarkMode}
-      >
-        {t('section.experience')}
-      </SectionTitle>
-      <ExperienceGrid>
-        {experience.map((item, index) => (
-          <ExperienceCard 
-            key={index}
-            item={item}
-            index={index}
-            isDarkMode={isDarkMode}
-          />
-        ))}
-      </ExperienceGrid>
-    </SectionContainer>
+    <SectionShell id="experience">
+      <Container>
+        <SectionTitle
+          isDarkMode={isDarkMode}
+          index="01"
+        >
+          {t('section.experience')}
+        </SectionTitle>
+        <Rows>
+          {experience.map((item) => (
+            <ExperienceRow
+              key={item.slug}
+              item={item}
+              isDarkMode={isDarkMode}
+            />
+          ))}
+        </Rows>
+      </Container>
+    </SectionShell>
   );
 };
