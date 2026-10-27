@@ -9,7 +9,7 @@
 - 포트폴리오 주인은 4년차 백엔드 엔지니어입니다.
 - 핵심 강점은 RDBMS 성능 최적화, 안정적인 데이터 파이프라인 운영, 유지보수 가능한 코드 구조 설계입니다.
 - 실무에서 ETL 처리 시간 단축, 멀티 스키마 추상화, 검색/API 성능 개선, 운영 안정화 경험을 보유하고 있습니다.
-- 사이드 프로젝트에서는 로컬 LLM 서빙, AI 활용 자동화, Clean Architecture 적용, 서비스 운영 경험을 보여주고 있습니다.
+- 사이드 프로젝트에서는 AI 활용 자동화, Clean Architecture 적용, 서비스 운영 경험을 보여주고 있습니다.
 - 이 사이트의 모든 문구와 구성은 백엔드 엔지니어로서의 강점이 더 선명하게 드러나는 방향을 우선해야 합니다.
 
 ## 주요 기술 스택
@@ -91,6 +91,10 @@
 - 가능하면 `npm test -- --watchAll=false`를 실행합니다.
 - 가능하면 `npm run build`를 실행합니다.
 - 로컬 환경에 Node 또는 npm이 없어 검증할 수 없는 경우, 검증 미실행 사실을 명확히 남깁니다.
+
+## 배포
+- `main`에 푸시(머지 포함)하면 `.github/workflows/deploy.yml`이 테스트와 빌드를 통과한 경우에만 Cloudflare Workers로 배포합니다. Worker 설정은 루트의 `wrangler.jsonc`(정적 자산 `build/`, Custom Domain `devgyurak.com`)입니다.
+- 배포에는 저장소 시크릿 `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`가 필요합니다. 로컬에서 `wrangler deploy`를 직접 실행하지 않습니다.
 
 ## 금지 사항
 - 포트폴리오 성격과 무관한 대규모 구조 변경

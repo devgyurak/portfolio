@@ -11,6 +11,9 @@
 # production
 /build
 
+# wrangler 로컬 캐시
+/.wrangler
+
 # misc
 .DS_Store
 .env.local

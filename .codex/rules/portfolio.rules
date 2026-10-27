@@ -26,7 +26,7 @@ prefix_rule(
 prefix_rule(
     pattern = ["git", "push"],
     decision = "prompt",
-    justification = "원격 반영은 확인 후 진행합니다. 태그 푸시는 Docker Hub 배포 워크플로우를 실행합니다.",
+    justification = "원격 반영은 확인 후 진행합니다. main 푸시는 Cloudflare Workers 배포 워크플로우를 실행합니다.",
     match = ["git push origin main", "git push origin v1.0.0"],
 )
 

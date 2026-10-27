@@ -16,7 +16,7 @@
 - 한국어/영어 전환 지원
 - 다크 모드/라이트 모드 지원
 - 경력, 프로젝트, 기술 스택 중심의 포트폴리오 구성
-- Docker 기반 실행 및 배포 구성
+- GitHub Actions + Cloudflare Workers 자동 배포
 
 ## 주요 파일
 
@@ -35,7 +35,7 @@
 
 사전 요구사항:
 
-- Node.js 18 이상 권장
+- Node.js 22 (`.nvmrc`)
 - npm
 
 설치 및 실행:
@@ -61,20 +61,6 @@ npm test -- --watchAll=false
 npm run build
 ```
 
-## Docker
-
-프로덕션 이미지 실행:
-
-```bash
-docker compose up portfolio-frontend
-```
-
-개발용 컨테이너 실행:
-
-```bash
-docker compose --profile dev up portfolio-dev
-```
-
 ## 작업 원칙
 
 - 포트폴리오의 핵심 메시지는 백엔드 엔지니어링 역량이어야 합니다.
@@ -85,7 +71,8 @@ docker compose --profile dev up portfolio-dev
 
 ## 배포
 
-- `Dockerfile`은 프로덕션 빌드를 생성한 뒤 `serve`로 정적 파일을 제공합니다.
-- `.github/workflows/build_and_push_dockerhub.yml`은 태그 푸시 시 Docker 이미지를 빌드하고 Docker Hub로 배포합니다.
+- `main`에 푸시(머지 포함)하면 `.github/workflows/deploy.yml`이 테스트와 빌드를 통과한 경우 Cloudflare Workers로 배포합니다.
+- Worker 설정은 `wrangler.jsonc`이며, 빌드 결과물 `build/`를 정적 자산으로 `devgyurak.com`(Custom Domain)에 서빙합니다.
+- 저장소 시크릿 `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`가 필요합니다.
 
 세부 작업 원칙은 `AGENTS.md`를 참고하세요.
