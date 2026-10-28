@@ -14,7 +14,7 @@ description: 포트폴리오 Work Experience 섹션의 경력 항목을 추가, 
 - 한 회사에서 한 직무: `slug`, `title`, `company`, `period`, `description`
 - 한 회사에서 여러 직무: `slug`, `company`, `period`, `roles[]`(각 role에 `slug`, `title`, `period`, `description`)
 
-배열은 최신 경력이 위로 오도록 유지합니다. 재직 중이면 기간 끝을 `Present`로 씁니다.
+배열은 최신 경력이 위로 오도록 유지합니다. 같은 회사에 다시 입사한 경력이면 `rehired: true`를 붙여 회사명 아래에 `exp.rehired`(재입사/Rejoined) 라벨이 보이게 합니다. 재직 중이면 기간 끝을 `Present`로 씁니다.
 
 `description`은 `• 항목\n\n• 항목` 형식을 유지하고, 각 항목은 "무엇을 개선했고 결과가 어땠는지"가 드러나게 씁니다.
 

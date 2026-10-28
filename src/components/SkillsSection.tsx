@@ -112,8 +112,7 @@ const getSkillIcon = (skillName: string): string | null => {
     'Nginx': '/icons/nginx.svg',
     'Clean Architecture': '/icons/cleanarchitecture.svg',
     'Pub/Sub': '/icons/pubsub.svg',
-    'vLLM': '/icons/vllm.svg',
-    'AX Engineering': '/icons/axengineering.svg'
+    'vLLM': '/icons/vllm.svg'
   };
   
   return iconMap[skillName] || null;

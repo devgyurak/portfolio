@@ -85,6 +85,20 @@ const Company = styled.h3<{ $isDarkMode: boolean }>`
     $isDarkMode ? theme.colors.dark.text : theme.colors.light.text};
 `;
 
+// 회사명 아래에 작게 붙는 "재입사" 표시입니다. 대형 회사명과 대비되게 본문 서체로 둡니다.
+const Rehired = styled.span<{ $isDarkMode: boolean }>`
+  display: block;
+  margin-top: 0.625rem;
+  font-family: ${theme.fonts.body};
+  font-stretch: normal;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.4;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? theme.colors.dark.textMuted : theme.colors.light.textMuted};
+`;
+
 const Roles = styled.div`
   grid-column: 6 / -1;
   display: grid;
@@ -161,13 +175,16 @@ const Bullet = styled.li<{ $isDarkMode: boolean }>`
 `;
 
 const Figure = styled.strong<{ $isDarkMode: boolean }>`
-  margin-left: 0.5rem;
+  margin-left: 0.25rem;
   font-weight: 700;
   white-space: nowrap;
   color: ${({ $isDarkMode }) =>
     $isDarkMode ? theme.colors.dark.accent : theme.colors.light.accent};
 
+  /* 모바일에서는 수치가 줄 끝에 들어가지 않으면 통째로 다음 줄로 내려, "약"처럼 한 단어만 남지 않게 합니다. */
   @media (max-width: ${theme.breakpoints.mobile}) {
+    display: inline-block;
+    margin-left: 0;
     white-space: normal;
   }
 `;
@@ -188,6 +205,7 @@ const DescriptionList: React.FC<{ text: string; isDarkMode: boolean }> = ({ text
         return (
           <Bullet key={line} $isDarkMode={isDarkMode}>
             {match ? match[1] : line}
+            {match && ' '}
             {match && <Figure $isDarkMode={isDarkMode}>{match[2]}</Figure>}
           </Bullet>
         );
@@ -227,7 +245,10 @@ const ExperienceRow: React.FC<{ item: ExperienceItemType; isDarkMode: boolean }>
       <Period $isDarkMode={isDarkMode} $current={item.period.includes('Present')}>
         {item.period}
       </Period>
-      <Company $isDarkMode={isDarkMode}>{item.company}</Company>
+      <Company $isDarkMode={isDarkMode}>
+        {item.company}
+        {item.rehired && <Rehired $isDarkMode={isDarkMode}>{t('exp.rehired')}</Rehired>}
+      </Company>
       <Roles>
         {roles.map((role) => (
           <RoleBlock key={role.slug}>
