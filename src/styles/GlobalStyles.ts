@@ -19,6 +19,7 @@ export const GlobalStyles = createGlobalStyle`
     font-family: ${theme.fonts.body};
     background: ${theme.colors.light.background};
     color: ${theme.colors.light.text};
+    color-scheme: light;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

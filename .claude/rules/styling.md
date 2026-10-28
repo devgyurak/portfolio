@@ -12,6 +12,7 @@ paths:
 - 색상, 간격, 반경, 브레이크포인트, 폰트는 `src/styles/theme.ts`의 `theme` 토큰을 사용합니다. 새 색상 값이 필요하면 하드코딩 대신 `theme.colors.light`와 `theme.colors.dark`에 같은 이름으로 함께 추가합니다.
 - 테마 분기는 styled-components transient prop `$isDarkMode`로 처리합니다. (`$isVisible`, `$clickable`처럼 DOM으로 전달되지 않는 props는 `$` 접두어 사용)
 - 인라인 `style` 속성은 사용하지 않습니다.
+- 기본 테마는 시스템 설정(`prefers-color-scheme`)을 따르고, 시스템 테마가 바뀌면 함께 바뀝니다. 헤더 토글로 직접 고르면 `localStorage`의 `darkMode`에 저장되어 그 뒤로는 저장된 값을 씁니다(`src/hooks/useTheme.tsx`).
 
 ## 레이아웃: 12컬럼 그리드
 
