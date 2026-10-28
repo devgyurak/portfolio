@@ -111,7 +111,7 @@ export const experience: ExperienceItem[] = [
   {
     slug: "aitrics-2026",
     title: "Backend Engineer",
-    company: "aitrics",
+    company: "AITRICS",
     period: "2026.09 - Present",
     description: "• Go 레거시 시스템을 Python으로 전환\n\n• 보안 강화를 위해 암호화 방식을 AES-128-CBC에서 AES-256-CBC로 전환\n\n• Python 모노레포 의존성 관리를 위한 uv workspace 도입 주도\n\n• 운영팀과의 협업을 위한 Jira 프로세스 수립 주도\n\n• 보안과 제품 성능을 고려한 개발을 위해 AI Agentic Workflow(Skill, Rule 등) 구축"
   },
@@ -124,7 +124,7 @@ export const experience: ExperienceItem[] = [
   },
   {
     slug: "aitrics",
-    company: "aitrics",
+    company: "AITRICS",
     period: "2023.08 - 2026.02",
     roles: [
       {
@@ -159,7 +159,7 @@ export const experience: ExperienceItem[] = [
 
 // 히어로 성과 지표: experience 설명에 있는 수치만 사용합니다. 라벨은 metric.<slug> 번역 키로 렌더링됩니다.
 export const heroMetrics: HeroMetric[] = [
-  { slug: "etl", value: "-86%", company: "aitrics" },
+  { slug: "etl", value: "-86%", company: "AITRICS" },
   { slug: "search", value: "8s → ~1s", company: "8percent" },
   { slug: "migration", value: "4M · 3s", company: "Qualson" },
   { slug: "notice", value: "1/10", company: "8percent" }
