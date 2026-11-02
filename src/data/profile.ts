@@ -246,13 +246,12 @@ export const personalLinks: PersonalLink[] = [
 export const blogPosts: BlogPost[] = [
   {
     title: "pykorail",
-    date: "2026-09 ~ Present",
-    excerpt: "코레일톡 앱 API를 감싼 비공식 Python SDK입니다. 열차 조회부터 예매·결제·환불·예약대기·취소표 감시까지 코드 몇 줄로 다룰 수 있고, PyPI로 배포하고 있습니다.\n\n동기 Korail과 비동기 AsyncKorail이 같은 리소스와 시그니처를 공유하도록 설계했고, 환승 예매는 두 구간을 하나의 예약번호로 묶어 한 구간만 잡히는 부분 예약이 생기지 않게 했습니다. 코레일 서버가 TLS 지문을 확인하기 때문에 curl_cffi를 기본 HTTP 클라이언트로 쓰고, 역 이름 오타나 지난 시각 같은 잘못된 요청은 서버로 보내기 전에 막습니다.\n\n앱 API 리버스 엔지니어링과 SDK에 맞는 아키텍처 선택에는 AI 에이전트를 활용했습니다.",
+    date: "2026-09 ~ 2026-11",
+    excerpt: "코레일톡 앱 API를 감싼 비공식 Python SDK입니다. 열차 조회부터 예매·결제·환불·예약대기·취소표 감시까지 코드 몇 줄로 다룰 수 있게 만들어 PyPI로 배포했고, 약 1만 명의 기차 여정을 책임졌습니다. 2026년 11월 코레일의 요청으로 배포를 중단해 지금은 설치할 수 없습니다.\n\n동기 Korail과 비동기 AsyncKorail이 같은 리소스와 시그니처를 공유하도록 설계했고, 환승 예매는 두 구간을 하나의 예약번호로 묶어 한 구간만 잡히는 부분 예약이 생기지 않게 했습니다. 코레일 서버가 TLS 지문을 확인하기 때문에 curl_cffi를 기본 HTTP 클라이언트로 쓰고, 역 이름 오타나 지난 시각 같은 잘못된 요청은 서버로 보내기 전에 막습니다.\n\n앱 API 리버스 엔지니어링과 SDK에 맞는 아키텍처 선택에는 AI 에이전트를 활용했습니다.",
     image: "https://via.placeholder.com/400x200",
     tags: ["Python", "SDK", "asyncio", "curl_cffi", "PyPI"],
     slug: "pykorail",
-    url: "https://pykorail.devgyurak.com",
-    githubUrl: "https://github.com/devgyurak/pykorail"
+    url: "https://pykorail.devgyurak.com"
   },
   {
     title: "mysql-gcm",
