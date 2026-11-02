@@ -246,16 +246,18 @@ const ProjectItem: React.FC<{ post: BlogPost; index: number; isDarkMode: boolean
           ))}
         </TagsContainer>
         <ProjectActions>
-          <ActionLink
-            href={post.githubUrl || "https://github.com/devgyurak"}
-            target="_blank"
-            rel="noopener noreferrer"
-            $isDarkMode={isDarkMode}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <SvgIcon icon={LuGithub} />
-            {t('projects.viewGithub')}
-          </ActionLink>
+          {post.githubUrl && (
+            <ActionLink
+              href={post.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              $isDarkMode={isDarkMode}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <SvgIcon icon={LuGithub} />
+              {t('projects.viewGithub')}
+            </ActionLink>
+          )}
           {post.url && (
             <ActionLink
               href={post.url}
